@@ -16,45 +16,52 @@ namespace ObjectPooling
         [HideInInspector]
         public Pool Pool;
 
-        [SerializeField, HideInInspector]
         private PoolData poolData;
-        [SerializeField, HideInInspector]
         private PoolHelper helper;
-        [SerializeField, HideInInspector]
         private PoolExpander expander;
 
+        [SerializeField, ReadOnly]
+        private List<Poolable> pooledObjects = new List<Poolable>();
 
 
-        private void Reset()
+        private void Awake()
         {
+            int toInstantiate = size - pooledObjects.Count;
+            if (toInstantiate > 0)
+                DoCreateObjects(toInstantiate);
+
             var usedObjects = new List<Poolable>(size);
-            var pooledObjects = new List<Poolable>(size);
             poolData = new PoolData(usedObjects, pooledObjects);
             helper = new PoolHelper(poolData);
-            expander = new PoolExpander(poolData, expandAmount, instantiatedPerFrame, coroutineHolder: this);
+            expander = new PoolExpander(poolData, expandAmount, instantiatedPerFrame, poolBehaviour: this, prefab);
             Pool = new Pool(poolData, helper, expander);
+            expander.Pool = Pool;
+
+            foreach (var pooled in pooledObjects)
+                pooled.Pool = Pool;
         }
+
 
         [Button]
         private void CreateObjects()
         {
-            expander.Instantiate(size);
-            //objectsInUse = new List<Poolable>(size);
-            //    pooledObjects = new List<Poolable>(size);
+            DoCreateObjects(size);
+        }
 
-            //    for (int i = 0; i < size; i++)
-            //    {
-            //        var created = Instantiate(prefab, Vector3.zero, Quaternion.identity, transform);
-            //        created.Pool = this;
-            //        created.gameObject.SetActive(false);
-            //        pooledObjects.Add(created);
-            //    }
+        private void DoCreateObjects(int amount)
+        {
+            for (int i = 0; i < amount; i++)
+            {
+                var created = Instantiate(prefab, Vector3.zero, Quaternion.identity, transform);
+                created.gameObject.SetActive(false);
+                pooledObjects.Add(created);
+            }
         }
 
         [Button]
         private void ResetPool()
         {
-            
+            pooledObjects.Clear();
         }
     }
 }

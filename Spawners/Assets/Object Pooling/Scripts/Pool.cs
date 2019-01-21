@@ -7,11 +7,15 @@ using UnityEngine.Assertions;
 
 namespace ObjectPooling
 {
-    public class Pool 
+    [System.Serializable]
+    public class Pool
     {
-        private readonly PoolData data;
-        private readonly PoolHelper helper;
-        private readonly PoolExpander expander;
+        [SerializeField]
+        private PoolData data;
+        [SerializeField]
+        private PoolHelper helper;
+        [SerializeField]
+        private PoolExpander expander;
 
         internal Pool(PoolData data, PoolHelper helper, PoolExpander expander)
         {
@@ -25,12 +29,11 @@ namespace ObjectPooling
         {
             if (data.PooledObjects.Count == 0)
                 expander.Expand();
-            var retrieved = helper.Retrieve();
 
+            var retrieved = helper.Retrieve() as T;
             Assert.IsNotNull(retrieved);
-            Assert.AreEqual(data.Size, data.PooledObjects.Count + data.UsedObjects.Count);
 
-            return retrieved as T;
+            return retrieved;
         }
 
         public void Return(Poolable poolable)
@@ -38,15 +41,11 @@ namespace ObjectPooling
             Assert.IsNotNull(poolable);
 
             helper.Return(poolable);
-
-            Assert.AreEqual(data.Size, data.PooledObjects.Count + data.UsedObjects.Count);
         }
 
         public void ReturnAll()
         {
             helper.ReturnAll();
-
-            Assert.AreEqual(data.Size, data.PooledObjects.Count);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace ObjectPooling
     [Serializable]
     internal class PoolHelper
     {
-        private readonly PoolData data;
+        private PoolData data;
 
         public PoolHelper(PoolData data)
         {

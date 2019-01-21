@@ -4,12 +4,14 @@ using ObjectPooling;
 
 public class PoolTest : MonoBehaviour
 {
-    public Pool pool;
-
+    [SerializeField]
+    private PoolFacade poolFacade;
     private TransformPoolable poolable;
 
     private void Update()
     {
+        Pool pool = poolFacade.Pool;
+
         if (Input.GetKeyDown(KeyCode.Q))
         {
             poolable = pool.Retrieve<TransformPoolable>();

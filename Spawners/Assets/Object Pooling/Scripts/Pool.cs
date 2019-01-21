@@ -7,88 +7,46 @@ using UnityEngine.Assertions;
 
 namespace ObjectPooling
 {
-    public class Pool : MonoBehaviour
+    public class Pool 
     {
-        [SerializeField, MinValue(1)]
-        private int size = 10;
+        private readonly PoolData data;
+        private readonly PoolHelper helper;
+        private readonly PoolExpander expander;
 
-        [SerializeField]
-        private Poolable prefab;
-
-        [SerializeField, NaughtyAttributes.ReadOnly]
-        private List<Poolable> objectsInUse, pooledObjects;
-
-
-        private void Awake()
+        internal Pool(PoolData data, PoolHelper helper, PoolExpander expander)
         {
-            if (pooledObjects == null || pooledObjects.Count != size)
-                CreateObjects();
+            this.data = data;
+            this.helper = helper;
+            this.expander = expander;
         }
 
 
         public T Retrieve<T>() where T : Poolable
         {
-            int index = pooledObjects.Count - 1;
-            var poolable = pooledObjects[index];
-            pooledObjects.RemoveAt(index);
+            if (data.PooledObjects.Count == 0)
+                expander.Expand();
+            var retrieved = helper.Retrieve();
 
-            objectsInUse.Add(poolable);
+            Assert.IsNotNull(retrieved);
+            Assert.AreEqual(data.Size, data.PooledObjects.Count + data.UsedObjects.Count);
 
-            poolable.gameObject.SetActive(true);
-            T result = poolable as T;
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(size, pooledObjects.Count + objectsInUse.Count);
-
-            return result;
+            return retrieved as T;
         }
 
         public void Return(Poolable poolable)
         {
             Assert.IsNotNull(poolable);
 
-            int index = objectsInUse.IndexOf(poolable);
-            if (index == -1)
-                return;
-            objectsInUse.RemoveAtSwapBack(index);
+            helper.Return(poolable);
 
-            pooledObjects.Add(poolable);
-            poolable.gameObject.SetActive(false);
-
-            Assert.AreEqual(size, pooledObjects.Count + objectsInUse.Count);
+            Assert.AreEqual(data.Size, data.PooledObjects.Count + data.UsedObjects.Count);
         }
 
         public void ReturnAll()
         {
-            foreach (var used in objectsInUse)
-            {
-                pooledObjects.Add(used);
-                used.gameObject.SetActive(false);
-            }
+            helper.ReturnAll();
 
-            objectsInUse.Clear();
-
-            Assert.AreEqual(size, pooledObjects.Count);
-        }
-
-        public void Expand(int objectsToAdd)
-        {
-
-        }
-
-        [Button]
-        private void CreateObjects()
-        {
-            objectsInUse = new List<Poolable>(size);
-            pooledObjects = new List<Poolable>(size);
-
-            for (int i = 0; i < size; i++)
-            {
-                var created = Instantiate(prefab, Vector3.zero, Quaternion.identity, transform);
-                created.Pool = this;
-                created.gameObject.SetActive(false);
-                pooledObjects.Add(created);
-            }
+            Assert.AreEqual(data.Size, data.PooledObjects.Count);
         }
     }
 }

@@ -25,13 +25,7 @@ public class PoolTest : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             poolable = pool.Retrieve();
-            StartCoroutine(DelayReturn(poolable));
-
-            float x = Random.Range(-2f, 2f);
-            float z = Random.Range(-2f, 2f);
-
-            Transform pooledTransform = poolable.Target;
-            pooledTransform.position = new Vector3(x, 0f, z);
+            Use(poolable);
         }
         if (Input.GetKeyDown(KeyCode.W))
         {
@@ -52,7 +46,7 @@ public class PoolTest : MonoBehaviour
         pool.RetrieveMany(poolables, retrieveCount);
 
         for (int i = 0; i < retrieveCount; i++)
-            StartCoroutine(DelayReturn(poolables[i]));
+            Use(poolables[i]);
     }
 
     private void ReturnMany()
@@ -61,6 +55,16 @@ public class PoolTest : MonoBehaviour
         pool.ReturnMany(poolables, retrieveCount);
     }
 
+    private void Use(Poolable<Transform> poolable)
+    {
+        StartCoroutine(DelayReturn(poolable));
+
+        float x = Random.Range(-2f, 2f);
+        float z = Random.Range(-2f, 2f);
+
+        Transform pooledTransform = poolable.Target;
+        pooledTransform.position = new Vector3(x, 0f, z);
+    }
 
     private IEnumerator DelayReturn(Poolable<Transform> poolable)
     {

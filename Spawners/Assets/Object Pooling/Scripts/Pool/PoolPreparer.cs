@@ -16,7 +16,6 @@ namespace ObjectPooling
 
         public Pool<T> Pool;
 
-
         private void Awake()
         {
             GetPrewarmedObjects();

@@ -33,7 +33,7 @@ namespace ObjectPooling
             if (amount <= instantiatedPerFrame)
                 DoInstantiate(amount);
             else
-                poolBehaviour.StartCoroutine(InstantiateInCoroutine(amount));
+                poolBehaviour.StartCoroutine(InstantiateCoroutine(amount));
         }
 
         private void DoInstantiate(int amount)
@@ -48,7 +48,7 @@ namespace ObjectPooling
             }
         }
 
-        private IEnumerator InstantiateInCoroutine(int amount)
+        private IEnumerator InstantiateCoroutine(int amount)
         {
             while (amount > 0)
             {

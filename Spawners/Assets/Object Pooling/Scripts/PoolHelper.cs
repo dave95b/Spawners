@@ -2,21 +2,21 @@
 using System;
 using System.Collections.Generic;
 using Unity.Collections;
+using UnityEngine.Assertions;
 
 namespace ObjectPooling
 {
-    [Serializable]
-    internal class PoolHelper
+    internal class PoolHelper<T> where T : Component
     {
-        private PoolData data;
+        private readonly PoolData<T> data;
 
-        public PoolHelper(PoolData data)
+        public PoolHelper(PoolData<T> data)
         {
             this.data = data;
         }
 
 
-        public Poolable Retrieve()
+        public Poolable<T> Retrieve()
         {
             var pooledObjects = data.PooledObjects;
             int index = pooledObjects.Count - 1;
@@ -30,11 +30,10 @@ namespace ObjectPooling
             return poolable;
         }
 
-        public void Return(Poolable poolable)
+        public void Return(Poolable<T> poolable)
         {
             int index = data.UsedObjects.IndexOf(poolable);
-            if (index == -1)
-                return;
+            Assert.AreNotEqual(-1, index);
 
             data.UsedObjects.RemoveAtSwapBack(index);
 

@@ -5,16 +5,15 @@ using System.Collections.Generic;
 
 namespace ObjectPooling
 {
-    [Serializable]
-    internal class PoolExpander
+    internal class PoolExpander<T> where T : Component
     {
-        public Pool Pool;
-        private PoolData data;
-        private int expandAmount, instantiatedPerFrame;
-        private MonoBehaviour poolBehaviour;
-        private Poolable prefab;
+        public Pool<T> Pool;
+        private readonly PoolData<T> data;
+        private readonly int expandAmount, instantiatedPerFrame;
+        private readonly MonoBehaviour poolBehaviour;
+        private readonly Poolable<T> prefab;
 
-        public PoolExpander(PoolData data, int expandAmount, int instantiatedPerFrame, MonoBehaviour poolBehaviour, Poolable prefab)
+        public PoolExpander(PoolData<T> data, int expandAmount, int instantiatedPerFrame, MonoBehaviour poolBehaviour, Poolable<T> prefab)
         {
             this.data = data;
             this.expandAmount = expandAmount;

@@ -4,12 +4,11 @@ using System.Collections.Generic;
 
 namespace ObjectPooling
 {
-    [Serializable]
-    internal class PoolData
+    internal class PoolData<T> where T : Component
     {
-        public List<Poolable> UsedObjects, PooledObjects;
+        public readonly List<Poolable<T>> UsedObjects, PooledObjects;
 
-        public PoolData(List<Poolable> usedObjects, List<Poolable> pooledObjects)
+        public PoolData(List<Poolable<T>> usedObjects, List<Poolable<T>> pooledObjects)
         {
             UsedObjects = usedObjects;
             PooledObjects = pooledObjects;

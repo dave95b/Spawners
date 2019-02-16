@@ -34,8 +34,6 @@ public class PoolTest : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.A))
             RetrieveMany();
-        if (Input.GetKeyDown(KeyCode.S))
-            ReturnMany();
     }
 
     private void RetrieveMany()
@@ -47,12 +45,6 @@ public class PoolTest : MonoBehaviour
 
         for (int i = 0; i < retrieveCount; i++)
             Use(poolables[i]);
-    }
-
-    private void ReturnMany()
-    {
-        StopAllCoroutines();
-        pool.ReturnMany(poolables, retrieveCount);
     }
 
     private void Use(Poolable<Transform> poolable)

@@ -571,8 +571,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: 10
-  expandAmount: 1
-  instantiatedPerFrame: 1
+  expandAmount: 5
+  instantiatedPerFrame: 5
   prefab: {fileID: 3333443188457912515, guid: 18039bac28e75c34aa23f98e47b32051, type: 3}
   listenerProviders:
   - {fileID: 584010509}

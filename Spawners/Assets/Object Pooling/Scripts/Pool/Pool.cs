@@ -45,6 +45,8 @@ namespace ObjectPooling
 
         public void RetrieveMany(Poolable<T>[] poolables, int count)
         {
+            Assert.IsNotNull(poolables);
+            Assert.IsTrue(count > 0);
             Assert.IsTrue(count <= poolables.Length);
 
             for (int i = 0; i < count; i++)
@@ -62,22 +64,6 @@ namespace ObjectPooling
                 listener.OnReturned(poolable);
 
             helper.Return(poolable);
-        }
-
-        public void ReturnMany(Poolable<T>[] poolables)
-        {
-            ReturnMany(poolables, poolables.Length);
-        }
-
-        public void ReturnMany(Poolable<T>[] poolables, int count)
-        {
-            Assert.IsTrue(count <= poolables.Length);
-
-            for (int i = 0; i < count; i++)
-            {
-                Return(poolables[i]);
-                poolables[i] = null;
-            }
         }
 
         public void ReturnAll()

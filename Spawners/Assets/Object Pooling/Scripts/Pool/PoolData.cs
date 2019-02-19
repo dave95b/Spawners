@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ObjectPooling
 {
-    internal class PoolData<T> where T : Component
+    internal class PoolData<T>
     {
         public readonly List<Poolable<T>> UsedObjects, PooledObjects;
 

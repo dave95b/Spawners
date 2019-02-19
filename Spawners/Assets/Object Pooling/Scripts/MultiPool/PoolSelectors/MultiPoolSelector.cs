@@ -3,15 +3,8 @@ using System.Collections.Generic;
 
 namespace ObjectPooling
 {
-    public abstract class MultiPoolSelector<T> where T : Component
+    public interface IMultiPoolSelector 
     {
-        protected readonly IPool<T>[] pools;
-
-        protected MultiPoolSelector(IPool<T>[] pools)
-        {
-            this.pools = pools;
-        }
-
-        public abstract IPool<T> SelectPool();
+        int SelectPoolIndex();
     }
 }

@@ -3,13 +3,18 @@ using System.Collections.Generic;
 
 namespace ObjectPooling
 {
-    public class RandomPoolSelector<T> : MultiPoolSelector<T> where T : Component
+    public class RandomPoolSelector : IMultiPoolSelector
     {
-        public RandomPoolSelector(IPool<T>[] pools) : base(pools) { }
+        private readonly int poolCount;
 
-        public override IPool<T> SelectPool()
+        public RandomPoolSelector(int poolCount)
         {
-            return pools.GetRandom();
+            this.poolCount = poolCount;
+        }
+
+        public int SelectPoolIndex()
+        {
+            return Random.Range(0, poolCount);
         }
     }
 }

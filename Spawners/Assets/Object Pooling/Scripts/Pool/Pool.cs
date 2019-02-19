@@ -7,7 +7,7 @@ using UnityEngine.Assertions;
 
 namespace ObjectPooling
 {
-    public class Pool<T> : IPool<T> where T : Component
+    public class Pool<T> : IPool<T>
     {
         private readonly PoolData<T> data;
         private readonly PoolHelper<T> helper;

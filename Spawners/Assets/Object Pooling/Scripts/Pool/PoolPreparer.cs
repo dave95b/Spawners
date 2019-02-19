@@ -2,10 +2,11 @@
 using System.Collections;
 using NaughtyAttributes;
 using System.Collections.Generic;
+using System;
 
 namespace ObjectPooling
 {
-    internal abstract class PoolPreparer<T> : MonoBehaviour where T : Component
+    internal abstract class PoolPreparer<T> : MonoBehaviour
     {
         [SerializeField, MinValue(1)]
         private int size = 10, expandAmount = 5, instantiatedPerFrame = 10;
@@ -14,9 +15,18 @@ namespace ObjectPooling
         protected abstract List<Poolable<T>> PooledObjects { get; }
         protected abstract PoolListener<T>[] Listeners { get; }
 
-        public Pool<T> Pool;
+        private Pool<T> pool;
+        public Pool<T> Pool
+        {
+            get
+            {
+                if (pool is null)
+                    pool = CreatePool();
+                return pool;
+            }
+        }
 
-        private void Awake()
+        private Pool<T> CreatePool()
         {
             GetPrewarmedObjects();
             int toInstantiate = size - PooledObjects.Count;
@@ -27,11 +37,13 @@ namespace ObjectPooling
             var poolData = new PoolData<T>(usedObjects, PooledObjects);
             var helper = new PoolHelper<T>(poolData);
             var expander = new PoolExpander<T>(poolData, expandAmount, instantiatedPerFrame, poolBehaviour: this, Prefab);
-            Pool = new Pool<T>(poolData, helper, expander, Listeners);
-            expander.Pool = Pool;
+            var pool = new Pool<T>(poolData, helper, expander, Listeners);
+            expander.Pool = pool;
 
             foreach (var pooled in PooledObjects)
-                pooled.Pool = Pool;
+                pooled.Pool = pool;
+
+            return pool;
         }
 
 

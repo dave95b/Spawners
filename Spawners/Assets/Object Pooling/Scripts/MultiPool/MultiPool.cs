@@ -4,12 +4,12 @@ using UnityEngine.Assertions;
 
 namespace ObjectPooling
 {
-    public class MultiPool<T> : IPool<T> where T : Component
+    public class MultiPool<T> : IPool<T>
     {
         private readonly IPool<T>[] pools;
-        private readonly MultiPoolSelector<T> selector;
+        private readonly IMultiPoolSelector selector;
 
-        internal MultiPool(IPool<T>[] pools, MultiPoolSelector<T> selector)
+        internal MultiPool(IPool<T>[] pools, IMultiPoolSelector selector)
         {
             this.pools = pools;
             this.selector = selector;
@@ -18,8 +18,10 @@ namespace ObjectPooling
 
         public Poolable<T> Retrieve()
         {
-            var pool = selector.SelectPool();
-            return pool.Retrieve();
+            int index = selector.SelectPoolIndex();
+            Assert.IsTrue(index < pools.Length);
+
+            return pools[index].Retrieve();
         }
 
         public Poolable<T> RetrieveFrom(int poolIndex)

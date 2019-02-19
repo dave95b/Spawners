@@ -3,8 +3,10 @@ using System.Collections;
 
 namespace ObjectPooling
 {
-    public abstract class PoolProvider<T> : MonoBehaviour
+    internal abstract class PoolProvider : MonoBehaviour { }
+
+    internal abstract class PoolProvider<T> : PoolProvider
     {
-        public IPool<T> Pool { get; }
+        public abstract IPool<T> Pool { get; }
     }
 }

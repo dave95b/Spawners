@@ -1,15 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using NaughtyAttributes;
 
 namespace ObjectPooling
 {
-    public abstract class MultiPoolPreparer<T> : MonoBehaviour
+    internal abstract class MultiPoolPreparer : MonoBehaviour
+    {
+        public abstract PoolProvider[] Providers { get; }
+    }
+
+    internal abstract class MultiPoolPreparer<T> : MultiPoolPreparer
     {
         [SerializeField]
         private PoolSelectorProvider selectorProvider;
 
         protected abstract PoolProvider<T>[] PoolProviders { get; }
+        public override PoolProvider[] Providers => PoolProviders;
 
         private MultiPool<T> multiPool;
         public MultiPool<T> MultiPool
@@ -35,5 +42,8 @@ namespace ObjectPooling
 
             return multiPool;
         }
+
+        [Button]
+        protected abstract void FindPoolProviders();
     }
 }

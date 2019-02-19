@@ -3715,10 +3715,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1709302176}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a78fc530f6fa3ab41a33a5a9ee0655de, type: 3}
+  m_Script: {fileID: 11500000, guid: 4de7eec62fedbca4eb77328853d0cf1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   preparer: {fileID: 1709302177}
+  priorities:
+  - PoolProvider: {fileID: 2105667380}
+    Priority: 0
+  - PoolProvider: {fileID: 610815756}
+    Priority: 5
 --- !u!1 &1713040085
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using NaughtyAttributes;
+using System.Diagnostics;
 
 namespace ObjectPooling
 {
@@ -43,7 +44,7 @@ namespace ObjectPooling
             return multiPool;
         }
 
-        [Button]
+        [Conditional("UNITY_EDITOR"), Button]
         protected abstract void FindPoolProviders();
     }
 }

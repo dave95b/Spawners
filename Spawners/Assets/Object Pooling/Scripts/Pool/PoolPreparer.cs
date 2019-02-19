@@ -3,6 +3,7 @@ using System.Collections;
 using NaughtyAttributes;
 using System.Collections.Generic;
 using System;
+using System.Diagnostics;
 
 namespace ObjectPooling
 {
@@ -47,7 +48,7 @@ namespace ObjectPooling
         }
 
 
-        [Button]
+        [Conditional("UNITY_EDITOR"), Button]
         protected void CreateObjects()
         {
             CreateObjects(size, addToPooled: false);

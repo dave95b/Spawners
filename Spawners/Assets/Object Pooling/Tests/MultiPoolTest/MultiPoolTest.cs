@@ -42,11 +42,12 @@ public class MultiPoolTest : MonoBehaviour
     {
         StartCoroutine(DelayReturn(poolable));
 
-        float x = Random.Range(-2f, 2f);
-        float z = Random.Range(-2f, 2f);
+        float x = Random.Range(-5f, 5f);
+        float y = Random.Range(-2f, 2f);
+        float z = Random.Range(-5f, 5f);
 
         Transform pooledTransform = poolable.Target;
-        pooledTransform.position = new Vector3(x, 0f, z);
+        pooledTransform.position = new Vector3(x, y, z);
     }
 
     private void RetrieveMany()

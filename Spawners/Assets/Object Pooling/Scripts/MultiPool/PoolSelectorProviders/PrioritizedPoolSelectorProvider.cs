@@ -33,9 +33,10 @@ namespace ObjectPooling
         {
             int length = priorities.Count;
             int[] result = new int[length];
+            result[0] = priorities[0].Priority;
 
-            for (int i = 0; i < length; i++)
-                result[i] = priorities[i].Priority;
+            for (int i = 1; i < length; i++)
+                result[i] = priorities[i].Priority + result[i - 1];
 
             return result;
         }

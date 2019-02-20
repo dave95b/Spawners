@@ -6,7 +6,7 @@ using UnityEngine.Assertions;
 
 namespace ObjectPooling
 {
-    internal class PoolHelper<T> where T : Component
+    internal class PoolHelper<T>
     {
         private readonly PoolData<T> data;
 

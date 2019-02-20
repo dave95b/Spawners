@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace ObjectPooling
 {
-    internal class PoolExpander<T> where T : Component
+    internal class PoolExpander<T>
     {
         public Pool<T> Pool;
         private readonly PoolData<T> data;

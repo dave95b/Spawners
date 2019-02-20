@@ -2,7 +2,7 @@
 
 namespace ObjectPooling
 {
-    public interface IPool<T> where T : Component
+    public interface IPool<T>
     {
         Poolable<T> Retrieve();
         void RetrieveMany(Poolable<T>[] poolables);

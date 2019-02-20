@@ -9,7 +9,7 @@ namespace ObjectPooling
     {
     }
 
-    public abstract class Poolable<T> : Poolable where T : Component
+    public abstract class Poolable<T> : Poolable
     {
         [SerializeField]
         public T Target;

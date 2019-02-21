@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
+using System;
 using UnityEngine.Assertions;
 
 namespace ObjectPooling
@@ -9,25 +9,36 @@ namespace ObjectPooling
         private readonly IPool<T>[] pools;
         private readonly IMultiPoolSelector selector;
 
-        internal MultiPool(IPool<T>[] pools, IMultiPoolSelector selector)
+        private readonly PoolListener<T>[] listeners;
+
+        internal MultiPool(IPool<T>[] pools, IMultiPoolSelector selector) : this(pools, selector, Array.Empty<PoolListener<T>>())
+        {
+
+        }
+
+        internal MultiPool(IPool<T>[] pools, IMultiPoolSelector selector, PoolListener<T>[] listeners)
         {
             this.pools = pools;
             this.selector = selector;
+            this.listeners = listeners;
         }
 
 
         public Poolable<T> Retrieve()
         {
             int index = selector.SelectPoolIndex();
-            Assert.IsTrue(index < pools.Length);
-
-            return pools[index].Retrieve();
+            return RetrieveFrom(index);
         }
 
         public Poolable<T> RetrieveFrom(int poolIndex)
         {
             Assert.IsTrue(poolIndex < pools.Length);
-            return pools[poolIndex].Retrieve();
+            var poolable = pools[poolIndex].Retrieve();
+
+            foreach (var listener in listeners)
+                listener.OnRetrieved(poolable);
+
+            return poolable;
         }
 
         public void RetrieveMany(Poolable<T>[] poolables)
@@ -62,12 +73,20 @@ namespace ObjectPooling
 
             var pool = pools[poolIndex];
             pool.RetrieveMany(poolables, count);
+
+            foreach (var listener in listeners)
+            {
+                foreach (var poolable in poolables)
+                    listener.OnRetrieved(poolable);
+            }
         }
 
-        public void ReturnAll()
+        public void Return(Poolable<T> poolable)
         {
-            foreach (var pool in pools)
-                pool.ReturnAll();
+            foreach (var listener in listeners)
+                listener.OnReturned(poolable);
+
+            poolable.Pool.Return(poolable);
         }
     }
 }

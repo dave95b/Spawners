@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+
 
 namespace ObjectPooling
 {
@@ -7,7 +9,7 @@ namespace ObjectPooling
         Poolable<T> Retrieve();
         void RetrieveMany(Poolable<T>[] poolables);
         void RetrieveMany(Poolable<T>[] poolables, int count);
-        
-        void ReturnAll();
+
+        void Return(Poolable<T> poolable);
     }
 }

@@ -9,28 +9,12 @@ class TransformPoolPreparer : PoolPreparer<Transform>
     private TransformPoolable prefab;
     protected override Poolable<Transform> Prefab => prefab;
 
-    private List<Poolable<Transform>> pooledObjects = new List<Poolable<Transform>>();
-    protected override List<Poolable<Transform>> PooledObjects => pooledObjects;
-
     [SerializeField]
-    TransformPoolListenerProvider[] listenerProviders;
-
-    protected override PoolListener<Transform>[] Listeners
-    {
-        get
-        {
-            int length = listenerProviders.Length;
-            PoolListener<Transform>[] listeners = new PoolListener<Transform>[length];
-
-            for (int i = 0; i < length; i++)
-                listeners[i] = listenerProviders[i].Listener;
-
-            return listeners;
-        }
-    }
+    TransformListenersRepository listenersRepository;
+    protected override ListenersRepository<Transform> ListenersRepository => listenersRepository;
 }
 
-abstract class TransformPoolListenerProvider : MonoBehaviour
+abstract class TransformPoolListenerProvider : PoolListenerProvider<Transform>
 {
-    public abstract PoolListener<Transform> Listener { get; }
+
 }

@@ -40,21 +40,5 @@ namespace ObjectPooling
             data.PooledObjects.Add(poolable);
             poolable.gameObject.SetActive(false);
         }
-
-        public void ReturnAll()
-        {
-            var usedObjects = data.UsedObjects;
-            var pooledObjects = data.PooledObjects;
-            int count = data.UsedObjects.Count;
-
-            for (int i = 0; i < count; i++)
-            {
-                var used = usedObjects[i];
-                pooledObjects.Add(used);
-                used.gameObject.SetActive(false);
-            }
-
-            usedObjects.Clear();
-        }
     }
 }

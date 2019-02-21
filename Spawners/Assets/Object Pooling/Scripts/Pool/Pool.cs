@@ -1,8 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
-using NaughtyAttributes;
 using System.Collections.Generic;
-using Unity.Collections;
 using UnityEngine.Assertions;
 
 namespace ObjectPooling
@@ -14,6 +12,11 @@ namespace ObjectPooling
         private readonly PoolExpander<T> expander;
 
         private readonly PoolListener<T>[] listeners;
+
+        internal Pool(PoolData<T> data, PoolHelper<T> helper, PoolExpander<T> expander) : this(data, helper, expander, Array.Empty<PoolListener<T>>())
+        {
+
+        }
 
         internal Pool(PoolData<T> data, PoolHelper<T> helper, PoolExpander<T> expander, PoolListener<T>[] listeners)
         {
@@ -64,16 +67,6 @@ namespace ObjectPooling
                 listener.OnReturned(poolable);
 
             helper.Return(poolable);
-        }
-
-        public void ReturnAll()
-        {
-            foreach (var listener in listeners)
-            {
-                foreach (var poolable in data.UsedObjects)
-                    listener.OnReturned(poolable);
-            }
-            helper.ReturnAll();
         }
     }
 }

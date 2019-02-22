@@ -7,19 +7,19 @@ namespace ObjectPooling
 {
     public class Pool<T> : IPool<T>
     {
-        private readonly PoolData<T> data;
+        private readonly List<Poolable<T>> pooledObjects;
         private readonly PoolHelper<T> helper;
         private readonly PoolExpander<T> expander;
         private readonly IPoolableStateResotrer<T> stateResotrer;
         
 
-        internal Pool(PoolData<T> data, PoolHelper<T> helper, PoolExpander<T> expander, IPoolableStateResotrer<T> stateResotrer)
+        internal Pool(List<Poolable<T>> pooledObjects, PoolHelper<T> helper, PoolExpander<T> expander, IPoolableStateResotrer<T> stateResotrer)
         {
-            Assert.IsNotNull(data);
+            Assert.IsNotNull(pooledObjects);
             Assert.IsNotNull(helper);
             Assert.IsNotNull(expander);
 
-            this.data = data;
+            this.pooledObjects = pooledObjects;
             this.helper = helper;
             this.expander = expander;
             this.stateResotrer = stateResotrer;
@@ -28,7 +28,7 @@ namespace ObjectPooling
 
         public Poolable<T> Retrieve()
         {
-            if (data.PooledObjects.Count == 0)
+            if (pooledObjects.Count == 0)
                 expander.Expand();
 
             var poolable = helper.Retrieve();

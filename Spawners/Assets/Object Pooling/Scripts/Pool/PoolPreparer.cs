@@ -35,11 +35,9 @@ namespace ObjectPooling
             if (toInstantiate > 0)
                 CreateObjects(toInstantiate, pooledObjects);
 
-            var usedObjects = new List<Poolable<T>>(size);
-            var poolData = new PoolData<T>(usedObjects, pooledObjects);
-            var helper = new PoolHelper<T>(poolData);
-            var expander = new PoolExpander<T>(poolData, expandAmount, instantiatedPerFrame, poolBehaviour: this, Prefab);
-            var pool = new Pool<T>(poolData, helper, expander, StateRestorer);
+            var helper = new PoolHelper<T>(pooledObjects);
+            var expander = new PoolExpander<T>(pooledObjects, expandAmount, instantiatedPerFrame, poolBehaviour: this, Prefab);
+            var pool = new Pool<T>(pooledObjects, helper, expander, StateRestorer);
 
             expander.Pool = pool;
 

@@ -8,14 +8,14 @@ namespace ObjectPooling
     internal class PoolExpander<T>
     {
         public Pool<T> Pool;
-        private readonly PoolData<T> data;
+        private readonly List<Poolable<T>> pooledObjects;
         private readonly int expandAmount, instantiatedPerFrame;
         private readonly MonoBehaviour poolBehaviour;
         private readonly Poolable<T> prefab;
 
-        public PoolExpander(PoolData<T> data, int expandAmount, int instantiatedPerFrame, MonoBehaviour poolBehaviour, Poolable<T> prefab)
+        public PoolExpander(List<Poolable<T>> pooledObjects, int expandAmount, int instantiatedPerFrame, MonoBehaviour poolBehaviour, Poolable<T> prefab)
         {
-            this.data = data;
+            this.pooledObjects = pooledObjects;
             this.expandAmount = expandAmount;
             this.instantiatedPerFrame = instantiatedPerFrame;
             this.poolBehaviour = poolBehaviour;
@@ -44,7 +44,7 @@ namespace ObjectPooling
                 var created = GameObject.Instantiate(prefab, Vector3.zero, Quaternion.identity, parent);
                 created.Pool = Pool;
                 created.gameObject.SetActive(false);
-                data.PooledObjects.Add(created);
+                pooledObjects.Add(created);
             }
         }
 

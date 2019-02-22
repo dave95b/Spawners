@@ -12,6 +12,7 @@ namespace ObjectPooling
 
         public PoolHelper(List<Poolable<T>> pooledObjects)
         {
+            Assert.IsNotNull(pooledObjects);
             this.pooledObjects = pooledObjects;
         }
 

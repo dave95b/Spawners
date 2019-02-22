@@ -26,17 +26,15 @@ namespace ObjectPooling
             }
         }
 
+        private PoolExpander<T> expander;
+
         private Pool<T> CreatePool()
         {
             var pooledObjects = new List<Poolable<T>>(size);
             GetPrewarmedObjects(pooledObjects);
 
-            int toInstantiate = size - pooledObjects.Count;
-            if (toInstantiate > 0)
-                CreateObjects(toInstantiate, pooledObjects);
-
             var helper = new PoolHelper<T>(pooledObjects);
-            var expander = new PoolExpander<T>(pooledObjects, expandAmount, instantiatedPerFrame, poolBehaviour: this, Prefab);
+            expander = new PoolExpander<T>(pooledObjects, expandAmount, instantiatedPerFrame, objectsParent: transform, Prefab);
             var pool = new Pool<T>(pooledObjects, helper, expander, StateRestorer);
 
             expander.Pool = pool;
@@ -44,9 +42,17 @@ namespace ObjectPooling
             foreach (var pooled in pooledObjects)
                 pooled.Pool = pool;
 
+            int toInstantiate = size - pooledObjects.Count;
+            if (toInstantiate > 0)
+                expander.Expand(toInstantiate);
+
             return pool;
         }
 
+        private void Update()
+        {
+            expander.Update();
+        }
 
         [Conditional("UNITY_EDITOR"), Button]
         protected void CreateObjects()
@@ -55,16 +61,6 @@ namespace ObjectPooling
             {
                 var created = Instantiate(Prefab, Vector3.zero, Quaternion.identity, transform);
                 created.gameObject.SetActive(false);
-            }
-        }
-
-        private void CreateObjects(int amount, List<Poolable<T>> pooledObjects)
-        {
-            for (int i = 0; i < amount; i++)
-            {
-                var created = Instantiate(Prefab, Vector3.zero, Quaternion.identity, transform);
-                created.gameObject.SetActive(false);
-                pooledObjects.Add(created);
             }
         }
 

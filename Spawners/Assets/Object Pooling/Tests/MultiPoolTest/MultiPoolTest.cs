@@ -58,7 +58,20 @@ public class MultiPoolTest : MonoBehaviour
 
     private IEnumerator DelayReturn(Poolable<Transform> poolable)
     {
-        yield return new WaitForSeconds(2f);
+        float time = 2f;
+
+        while (time >= 0f)
+        {
+            float dt = Time.deltaTime;
+            time -= dt;
+
+            float scale = poolable.Target.localScale.x;
+            scale += dt;
+            poolable.Target.localScale = new Vector3(scale, scale, scale);
+
+            yield return null;
+        }
+
         multiPool.Return(poolable);
     }
 }

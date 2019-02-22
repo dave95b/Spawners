@@ -33,7 +33,7 @@ namespace ObjectPooling
             Assert.IsTrue(poolIndex < pools.Length);
 
             var poolable = pools[poolIndex].Retrieve();
-            stateResotrer?.Restore(poolable);
+            stateResotrer?.Restore(poolable.Target);
 
             return poolable;
         }
@@ -75,7 +75,7 @@ namespace ObjectPooling
                 return;
 
             for (int i = 0; i < count; i++)
-                stateResotrer.Restore(poolables[i]);
+                stateResotrer.Restore(poolables[i].Target);
         }
 
         public void Return(Poolable<T> poolable)

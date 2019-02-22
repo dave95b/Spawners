@@ -5,6 +5,6 @@ namespace ObjectPooling
 {
     public interface IPoolableStateResotrer<T>
     {
-        void Restore(Poolable<T> poolable);
+        void Restore(T target);
     }
 }

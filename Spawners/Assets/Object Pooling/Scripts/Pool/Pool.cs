@@ -33,7 +33,7 @@ namespace ObjectPooling
 
             var poolable = helper.Retrieve();
             Assert.IsNotNull(poolable);
-            stateResotrer?.Restore(poolable);
+            stateResotrer?.Restore(poolable.Target);
 
             return poolable;
         }

@@ -14,7 +14,9 @@ internal class TransformMultiPoolPreparer : MultiPoolPreparer<Transform>
     private TransformMultiPoolPreparer[] multiPoolPreparers;
     protected override MultiPoolPreparer<Transform>[] MultiPoolPreparers => multiPoolPreparers;
 
-    protected override IPoolableStateResotrer<Transform> StateRestorer => null;
+    [SerializeField]
+    private TransformPoolableStateRestorer restorer;
+    protected override IPoolableStateResotrer<Transform> StateRestorer => restorer;
 
     protected override void FindPoolPreparers()
     {

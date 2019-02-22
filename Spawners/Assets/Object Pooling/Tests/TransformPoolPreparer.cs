@@ -9,5 +9,7 @@ class TransformPoolPreparer : PoolPreparer<Transform>
     private TransformPoolable prefab;
     protected override Poolable<Transform> Prefab => prefab;
 
-    protected override IPoolableStateResotrer<Transform> StateRestorer => null;
+    [SerializeField]
+    private TransformPoolableStateRestorer restorer;
+    protected override IPoolableStateResotrer<Transform> StateRestorer => restorer;
 }

@@ -8,19 +8,17 @@ namespace ObjectPooling
     {
         private readonly IPool<T>[] pools;
         private readonly IMultiPoolSelector selector;
+        private readonly IPoolableStateResotrer<T> stateResotrer;
 
-        private readonly PoolListener<T>[] listeners;
 
-        internal MultiPool(IPool<T>[] pools, IMultiPoolSelector selector) : this(pools, selector, Array.Empty<PoolListener<T>>())
+        internal MultiPool(IPool<T>[] pools, IMultiPoolSelector selector, IPoolableStateResotrer<T> stateResotrer)
         {
+            Assert.IsNotNull(pools);
+            Assert.IsNotNull(selector);
 
-        }
-
-        internal MultiPool(IPool<T>[] pools, IMultiPoolSelector selector, PoolListener<T>[] listeners)
-        {
             this.pools = pools;
             this.selector = selector;
-            this.listeners = listeners;
+            this.stateResotrer = stateResotrer;
         }
 
 
@@ -33,10 +31,9 @@ namespace ObjectPooling
         public Poolable<T> RetrieveFrom(int poolIndex)
         {
             Assert.IsTrue(poolIndex < pools.Length);
-            var poolable = pools[poolIndex].Retrieve();
 
-            foreach (var listener in listeners)
-                listener.OnRetrieved(poolable);
+            var poolable = pools[poolIndex].Retrieve();
+            stateResotrer?.Restore(poolable);
 
             return poolable;
         }
@@ -74,18 +71,15 @@ namespace ObjectPooling
             var pool = pools[poolIndex];
             pool.RetrieveMany(poolables, count);
 
-            foreach (var listener in listeners)
-            {
-                foreach (var poolable in poolables)
-                    listener.OnRetrieved(poolable);
-            }
+            if (stateResotrer is null)
+                return;
+
+            for (int i = 0; i < count; i++)
+                stateResotrer.Restore(poolables[i]);
         }
 
         public void Return(Poolable<T> poolable)
         {
-            foreach (var listener in listeners)
-                listener.OnReturned(poolable);
-
             poolable.Pool.Return(poolable);
         }
     }

@@ -13,7 +13,7 @@ namespace ObjectPooling
         private int size = 10, expandAmount = 5, instantiatedPerFrame = 10;
 
         protected abstract Poolable<T> Prefab { get; }
-        protected abstract ListenersRepository<T> ListenersRepository { get; }
+        protected abstract IPoolableStateResotrer<T> StateRestorer { get; }
 
         private Pool<T> pool;
         public Pool<T> Pool
@@ -39,15 +39,7 @@ namespace ObjectPooling
             var poolData = new PoolData<T>(usedObjects, pooledObjects);
             var helper = new PoolHelper<T>(poolData);
             var expander = new PoolExpander<T>(poolData, expandAmount, instantiatedPerFrame, poolBehaviour: this, Prefab);
-            Pool<T> pool = null;
-
-            if (ListenersRepository != null)
-            {
-                var listeners = ListenersRepository.Listeners;
-                pool = new Pool<T>(poolData, helper, expander, listeners);
-            }
-            else
-                pool = new Pool<T>(poolData, helper, expander);
+            var pool = new Pool<T>(poolData, helper, expander, StateRestorer);
 
             expander.Pool = pool;
 

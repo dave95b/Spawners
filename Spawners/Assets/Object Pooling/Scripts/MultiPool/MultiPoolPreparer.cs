@@ -13,7 +13,7 @@ namespace ObjectPooling
 
         protected abstract PoolPreparer<T>[] PoolPreparers { get; }
         protected abstract MultiPoolPreparer<T>[] MultiPoolPreparers { get; }
-        protected abstract ListenersRepository<T> ListenersRepository { get; }
+        protected abstract IPoolableStateResotrer<T> StateRestorer { get; }
 
         private MultiPool<T> multiPool;
         public MultiPool<T> MultiPool
@@ -30,15 +30,7 @@ namespace ObjectPooling
         {
             var pools = GetPools();
             var selector = selectorProvider.PoolSelector;
-
-            MultiPool<T> multiPool = null;
-            if (ListenersRepository != null)
-            {
-                var listeners = ListenersRepository.Listeners;
-                multiPool = new MultiPool<T>(pools, selector, listeners);
-            }
-            else
-                multiPool = new MultiPool<T>(pools, selector);
+            var multiPool = new MultiPool<T>(pools, selector, StateRestorer);
 
             return multiPool;
         }

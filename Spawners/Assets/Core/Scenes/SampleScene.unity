@@ -2687,7 +2687,6 @@ MonoBehaviour:
   expandAmount: 5
   instantiatedPerFrame: 10
   prefab: {fileID: 1706577064649739261, guid: 74d691cd6952ded44906fc0191d2066e, type: 3}
-  listenersRepository: {fileID: 0}
 --- !u!1 &389972880
 GameObject:
   m_ObjectHideFlags: 0
@@ -3688,7 +3687,6 @@ MonoBehaviour:
   expandAmount: 5
   instantiatedPerFrame: 10
   prefab: {fileID: 1706577064649739261, guid: 97134be81d354da49a5ed3b4030bc1f6, type: 3}
-  listenersRepository: {fileID: 0}
 --- !u!1 &545936802
 GameObject:
   m_ObjectHideFlags: 0
@@ -4062,8 +4060,6 @@ GameObject:
   - component: {fileID: 584010510}
   - component: {fileID: 584010512}
   - component: {fileID: 584010511}
-  - component: {fileID: 584010513}
-  - component: {fileID: 584010509}
   m_Layer: 0
   m_Name: Pool
   m_TagString: Untagged
@@ -4071,18 +4067,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &584010509
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 584010508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdc9dd7ff651f124eba5a938e44ea70f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &584010510
 Transform:
   m_ObjectHideFlags: 0
@@ -4137,21 +4121,6 @@ MonoBehaviour:
   expandAmount: 5
   instantiatedPerFrame: 5
   prefab: {fileID: 3333443188457912515, guid: 18039bac28e75c34aa23f98e47b32051, type: 3}
-  listenersRepository: {fileID: 584010513}
---- !u!114 &584010513
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 584010508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 064d079f14f4e6149a933c7f31430de7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  listenerProviders:
-  - {fileID: 584010509}
 --- !u!1 &594531396
 GameObject:
   m_ObjectHideFlags: 0
@@ -4458,7 +4427,6 @@ MonoBehaviour:
   expandAmount: 5
   instantiatedPerFrame: 10
   prefab: {fileID: 3333443188457912515, guid: f20bec91768cd964c9866e13753db76a, type: 3}
-  listenersRepository: {fileID: 0}
 --- !u!4 &610815758
 Transform:
   m_ObjectHideFlags: 0
@@ -4654,7 +4622,6 @@ MonoBehaviour:
   - {fileID: 374335816}
   - {fileID: 787155525}
   multiPoolPreparers: []
-  listenersRepository: {fileID: 0}
 --- !u!4 &625254996
 Transform:
   m_ObjectHideFlags: 0
@@ -5759,7 +5726,6 @@ MonoBehaviour:
   expandAmount: 5
   instantiatedPerFrame: 10
   prefab: {fileID: 3477256643372792080, guid: 92a25e233e905a446ac03abd054140f6, type: 3}
-  listenersRepository: {fileID: 0}
 --- !u!4 &787155526
 Transform:
   m_ObjectHideFlags: 0
@@ -6767,7 +6733,6 @@ MonoBehaviour:
   expandAmount: 5
   instantiatedPerFrame: 10
   prefab: {fileID: 3477256643372792080, guid: 0afc13d07e4c3c640a66e2f35412b72d, type: 3}
-  listenersRepository: {fileID: 0}
 --- !u!4 &1096816232
 Transform:
   m_ObjectHideFlags: 0
@@ -7145,7 +7110,6 @@ MonoBehaviour:
   - {fileID: 1252880537}
   - {fileID: 1096816231}
   multiPoolPreparers: []
-  listenersRepository: {fileID: 0}
 --- !u!4 &1157820522
 Transform:
   m_ObjectHideFlags: 0
@@ -7346,7 +7310,6 @@ MonoBehaviour:
   - {fileID: 543424815}
   - {fileID: 1993263184}
   multiPoolPreparers: []
-  listenersRepository: {fileID: 0}
 --- !u!4 &1180142353
 Transform:
   m_ObjectHideFlags: 0
@@ -7932,7 +7895,6 @@ MonoBehaviour:
   expandAmount: 5
   instantiatedPerFrame: 10
   prefab: {fileID: 1706577064649739261, guid: 5155a837fbd06e3468448910b225ff5e, type: 3}
-  listenersRepository: {fileID: 0}
 --- !u!1 &1272255786
 GameObject:
   m_ObjectHideFlags: 0
@@ -10393,9 +10355,6 @@ GameObject:
   - component: {fileID: 1709302179}
   - component: {fileID: 1709302177}
   - component: {fileID: 1709302180}
-  - component: {fileID: 1709302183}
-  - component: {fileID: 1709302182}
-  - component: {fileID: 1709302181}
   m_Layer: 0
   m_Name: MultiPool
   m_TagString: Untagged
@@ -10423,7 +10382,6 @@ MonoBehaviour:
   - {fileID: 1180142352}
   - {fileID: 1157820521}
   - {fileID: 625254995}
-  listenersRepository: {fileID: 1709302183}
 --- !u!4 &1709302178
 Transform:
   m_ObjectHideFlags: 0
@@ -10480,48 +10438,6 @@ MonoBehaviour:
     Priority: 5
   - PoolProvider: {fileID: 625254993}
     Priority: 1
---- !u!114 &1709302181
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1709302176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2435d4f6fb13aa148859f72b2bf23daa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minScale: 0.5
-  maxScale: 3
-  uniform: 1
---- !u!114 &1709302182
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1709302176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdc9dd7ff651f124eba5a938e44ea70f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1709302183
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1709302176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 064d079f14f4e6149a933c7f31430de7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  listenerProviders:
-  - {fileID: 1709302182}
-  - {fileID: 1709302181}
 --- !u!1 &1713040085
 GameObject:
   m_ObjectHideFlags: 0
@@ -12595,7 +12511,6 @@ MonoBehaviour:
   expandAmount: 5
   instantiatedPerFrame: 10
   prefab: {fileID: 3477256643372792080, guid: 07def2ba8a1593c479bad9b9f6d04095, type: 3}
-  listenersRepository: {fileID: 0}
 --- !u!4 &1993263185
 Transform:
   m_ObjectHideFlags: 0
@@ -13107,7 +13022,6 @@ MonoBehaviour:
   expandAmount: 5
   instantiatedPerFrame: 10
   prefab: {fileID: 3333443188457912515, guid: 18039bac28e75c34aa23f98e47b32051, type: 3}
-  listenersRepository: {fileID: 0}
 --- !u!4 &2105667382
 Transform:
   m_ObjectHideFlags: 0

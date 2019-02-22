@@ -8,22 +8,20 @@ namespace ObjectPooling
 {
     internal class PoolHelper<T>
     {
-        private readonly PoolData<T> data;
+        private readonly List<Poolable<T>> pooledObjects;
 
-        public PoolHelper(PoolData<T> data)
+        public PoolHelper(List<Poolable<T>> pooledObjects)
         {
-            this.data = data;
+            Assert.IsNotNull(pooledObjects);
+            this.pooledObjects = pooledObjects;
         }
 
 
         public Poolable<T> Retrieve()
         {
-            var pooledObjects = data.PooledObjects;
             int index = pooledObjects.Count - 1;
             var poolable = pooledObjects[index];
             pooledObjects.RemoveAt(index);
-
-            data.UsedObjects.Add(poolable);
 
             poolable.gameObject.SetActive(true);
 
@@ -32,29 +30,8 @@ namespace ObjectPooling
 
         public void Return(Poolable<T> poolable)
         {
-            int index = data.UsedObjects.IndexOf(poolable);
-            Assert.AreNotEqual(-1, index);
-
-            data.UsedObjects.RemoveAtSwapBack(index);
-
-            data.PooledObjects.Add(poolable);
+            pooledObjects.Add(poolable);
             poolable.gameObject.SetActive(false);
-        }
-
-        public void ReturnAll()
-        {
-            var usedObjects = data.UsedObjects;
-            var pooledObjects = data.PooledObjects;
-            int count = data.UsedObjects.Count;
-
-            for (int i = 0; i < count; i++)
-            {
-                var used = usedObjects[i];
-                pooledObjects.Add(used);
-                used.gameObject.SetActive(false);
-            }
-
-            usedObjects.Clear();
         }
     }
 }

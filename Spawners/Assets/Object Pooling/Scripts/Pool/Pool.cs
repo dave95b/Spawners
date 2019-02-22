@@ -1,39 +1,39 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
-using NaughtyAttributes;
 using System.Collections.Generic;
-using Unity.Collections;
 using UnityEngine.Assertions;
 
 namespace ObjectPooling
 {
     public class Pool<T> : IPool<T>
     {
-        private readonly PoolData<T> data;
+        private readonly List<Poolable<T>> pooledObjects;
         private readonly PoolHelper<T> helper;
         private readonly PoolExpander<T> expander;
+        private readonly IPoolableStateResotrer<T> stateResotrer;
+        
 
-        private readonly PoolListener<T>[] listeners;
-
-        internal Pool(PoolData<T> data, PoolHelper<T> helper, PoolExpander<T> expander, PoolListener<T>[] listeners)
+        internal Pool(List<Poolable<T>> pooledObjects, PoolHelper<T> helper, PoolExpander<T> expander, IPoolableStateResotrer<T> stateResotrer)
         {
-            this.data = data;
+            Assert.IsNotNull(pooledObjects);
+            Assert.IsNotNull(helper);
+            Assert.IsNotNull(expander);
+
+            this.pooledObjects = pooledObjects;
             this.helper = helper;
             this.expander = expander;
-            this.listeners = listeners;
+            this.stateResotrer = stateResotrer;
         }
 
 
         public Poolable<T> Retrieve()
         {
-            if (data.PooledObjects.Count == 0)
+            if (pooledObjects.Count == 0)
                 expander.Expand();
 
             var poolable = helper.Retrieve();
             Assert.IsNotNull(poolable);
-
-            foreach (var listener in listeners)
-                listener.OnRetrieved(poolable);
+            stateResotrer?.Restore(poolable.Target);
 
             return poolable;
         }
@@ -59,21 +59,7 @@ namespace ObjectPooling
         public void Return(Poolable<T> poolable)
         {
             Assert.IsNotNull(poolable);
-
-            foreach (var listener in listeners)
-                listener.OnReturned(poolable);
-
             helper.Return(poolable);
-        }
-
-        public void ReturnAll()
-        {
-            foreach (var listener in listeners)
-            {
-                foreach (var poolable in data.UsedObjects)
-                    listener.OnReturned(poolable);
-            }
-            helper.ReturnAll();
         }
     }
 }

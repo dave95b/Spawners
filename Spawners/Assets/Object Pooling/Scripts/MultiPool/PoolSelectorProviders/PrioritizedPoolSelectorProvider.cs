@@ -41,25 +41,29 @@ namespace ObjectPooling
             return result;
         }
 
-        [Conditional("UNITY_EDITOR"), Button]
-        protected void UpdatePriorities()
+        public override void Initialize<T>(PoolPreparer<T>[] poolPreparers, MultiPoolPreparer<T>[] multiPoolPreparers)
         {
-            foreach (var provider in preparer.Providers)
+            foreach (var preparer in poolPreparers)
             {
-                if (!priorities.Any(p => p.PoolProvider == provider))
-                    priorities.Add(new Entry(provider));
+                var preparerObject = preparer.gameObject;
+                if (!priorities.Any(entry => entry.PoolProvider == preparerObject))
+                    priorities.Add(new Entry(preparerObject));
             }
-            
-            priorities.RemoveAll(entry => !preparer.Providers.Any(provider => entry.PoolProvider == provider));
+            foreach (var preparer in multiPoolPreparers)
+            {
+                var preparerObject = preparer.gameObject;
+                if (!priorities.Any(entry => entry.PoolProvider == preparerObject))
+                    priorities.Add(new Entry(preparerObject));
+            }
         }
 
         [Serializable]
         private struct Entry
         {
-            public PoolProvider PoolProvider;
+            public GameObject PoolProvider;
             public int Priority;
 
-            public Entry(PoolProvider provider)
+            public Entry(GameObject provider)
             {
                 PoolProvider = provider;
                 Priority = 0;

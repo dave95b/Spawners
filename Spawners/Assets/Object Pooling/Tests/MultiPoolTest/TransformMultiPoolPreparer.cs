@@ -1,40 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using ObjectPooling;
+using NaughtyAttributes;
+using System.Linq;
 
 internal class TransformMultiPoolPreparer : MultiPoolPreparer<Transform>
 {
+    [SerializeField, ReorderableList]
+    private TransformPoolPreparer[] poolPreparers;
+    protected override PoolPreparer<Transform>[] PoolPreparers => poolPreparers;
+
+    [SerializeField, ReorderableList]
+    private TransformMultiPoolPreparer[] multiPoolPreparers;
+    protected override MultiPoolPreparer<Transform>[] MultiPoolPreparers => multiPoolPreparers;
+
     [SerializeField]
-    private TransformPoolProvider[] providers;
-    [SerializeField]
-    private TransformMultiPoolProvider[] multiPoolProviders;
+    private TransformPoolableStateRestorer restorer;
+    protected override IPoolableStateResotrer<Transform> StateRestorer => restorer;
 
-    private PoolProvider<Transform>[] poolProviders;
-    protected override PoolProvider<Transform>[] PoolProviders
+    protected override void FindPoolPreparers()
     {
-        get
-        {
-            if (poolProviders is null)
-            {
-                poolProviders = new PoolProvider<Transform>[providers.Length + multiPoolProviders.Length];
-                int i = 0;
-                for (i = 0; i < providers.Length; i++)
-                    poolProviders[i] = providers[i];
-
-                for (int j = 0; j < multiPoolProviders.Length; j++)
-                {
-                    poolProviders[i] = multiPoolProviders[j];
-                    i++;
-                }
-            }
-
-            return poolProviders;
-        }
-    }
-
-    protected override void FindPoolProviders()
-    {
-        providers = GetComponentsInChildren<TransformPoolProvider>();
-        multiPoolProviders = GetComponentsInChildren<TransformMultiPoolProvider>();
+        poolPreparers = GetComponentsInChildren<TransformPoolPreparer>().Where(PreparersPredicate).ToArray();
+        multiPoolPreparers = GetComponentsInChildren<TransformMultiPoolPreparer>().Where(PreparersPredicate).ToArray();
     }
 }

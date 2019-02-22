@@ -15,10 +15,5 @@ namespace ObjectPooling
         public T Target;
 
         public Pool<T> Pool;
-
-        public void Return()
-        {
-            Pool.Return(this);
-        }
     }
 }

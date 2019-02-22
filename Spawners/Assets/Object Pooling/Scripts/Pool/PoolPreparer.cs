@@ -13,8 +13,7 @@ namespace ObjectPooling
         private int size = 10, expandAmount = 5, instantiatedPerFrame = 10;
 
         protected abstract Poolable<T> Prefab { get; }
-        protected abstract List<Poolable<T>> PooledObjects { get; }
-        protected abstract PoolListener<T>[] Listeners { get; }
+        protected abstract IPoolableStateResotrer<T> StateRestorer { get; }
 
         private Pool<T> pool;
         public Pool<T> Pool
@@ -27,52 +26,51 @@ namespace ObjectPooling
             }
         }
 
+        private PoolExpander<T> expander;
+
         private Pool<T> CreatePool()
         {
-            GetPrewarmedObjects();
-            int toInstantiate = size - PooledObjects.Count;
-            if (toInstantiate > 0)
-                CreateObjects(toInstantiate, addToPooled: true);
+            var pooledObjects = new List<Poolable<T>>(size);
+            GetPrewarmedObjects(pooledObjects);
 
-            var usedObjects = new List<Poolable<T>>(size);
-            var poolData = new PoolData<T>(usedObjects, PooledObjects);
-            var helper = new PoolHelper<T>(poolData);
-            var expander = new PoolExpander<T>(poolData, expandAmount, instantiatedPerFrame, poolBehaviour: this, Prefab);
-            var pool = new Pool<T>(poolData, helper, expander, Listeners);
+            var helper = new PoolHelper<T>(pooledObjects);
+            expander = new PoolExpander<T>(pooledObjects, expandAmount, instantiatedPerFrame, objectsParent: transform, Prefab);
+            var pool = new Pool<T>(pooledObjects, helper, expander, StateRestorer);
+
             expander.Pool = pool;
 
-            foreach (var pooled in PooledObjects)
+            foreach (var pooled in pooledObjects)
                 pooled.Pool = pool;
+
+            int toInstantiate = size - pooledObjects.Count;
+            if (toInstantiate > 0)
+                expander.Expand(toInstantiate);
 
             return pool;
         }
 
+        private void Update()
+        {
+            expander.Update();
+        }
 
         [Conditional("UNITY_EDITOR"), Button]
         protected void CreateObjects()
         {
-            CreateObjects(size, addToPooled: false);
-        }
-
-        private void CreateObjects(int amount, bool addToPooled)
-        {
-            for (int i = 0; i < amount; i++)
+            for (int i = 0; i < size; i++)
             {
                 var created = Instantiate(Prefab, Vector3.zero, Quaternion.identity, transform);
                 created.gameObject.SetActive(false);
-
-                if (addToPooled)
-                    PooledObjects.Add(created);
             }
         }
 
-        private void GetPrewarmedObjects()
+        private void GetPrewarmedObjects(List<Poolable<T>> pooledObjects)
         {
             for (int i = 0; i < transform.childCount; i++)
             {
                 var poolable = transform.GetChild(i).GetComponent<Poolable<T>>();
                 if (poolable != null)
-                    PooledObjects.Add(poolable);
+                    pooledObjects.Add(poolable);
             }
         }
     }

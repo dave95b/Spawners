@@ -28,11 +28,6 @@ public class PoolTest : MonoBehaviour
             Use(poolable);
         }
         if (Input.GetKeyDown(KeyCode.W))
-        {
-            pool.ReturnAll();
-            StopAllCoroutines();
-        }
-        if (Input.GetKeyDown(KeyCode.A))
             RetrieveMany();
     }
 
@@ -61,6 +56,6 @@ public class PoolTest : MonoBehaviour
     private IEnumerator DelayReturn(Poolable<Transform> poolable)
     {
         yield return new WaitForSeconds(2f);
-        poolable.Return();
+        pool.Return(poolable);
     }
 }

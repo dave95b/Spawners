@@ -1,15 +1,17 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using System;
+using System.Linq;
 using NaughtyAttributes;
 using System.Diagnostics;
+using SpawnerSystem.Shared;
 
 namespace SpawnerSystem.ObjectPooling
 {
     internal abstract class MultiPoolPreparer<T> : MonoBehaviour
     {
         [SerializeField]
-        private PoolSelectorProvider selectorProvider;
+        private SelectorProvider selectorProvider;
 
         protected abstract PoolPreparer<T>[] PoolPreparers { get; }
         protected abstract MultiPoolPreparer<T>[] MultiPoolPreparers { get; }
@@ -29,10 +31,9 @@ namespace SpawnerSystem.ObjectPooling
         private MultiPool<T> CreateMultiPool()
         {
             var pools = GetPools();
-            var selector = selectorProvider.PoolSelector;
-            var multiPool = new MultiPool<T>(pools, selector, StateRestorer);
+            var selector = selectorProvider.Selector;
 
-            return multiPool;
+            return new MultiPool<T>(pools, selector, StateRestorer);
         }
 
         private IPool<T>[] GetPools()
@@ -60,7 +61,14 @@ namespace SpawnerSystem.ObjectPooling
         [Conditional("UNITY_EDITOR"), Button]
         protected void InitializeSelector()
         {
-            selectorProvider?.Initialize(PoolPreparers, MultiPoolPreparers);
+            if (selectorProvider == null)
+                return;
+
+            IEnumerable<GameObject> preparers = PoolPreparers
+                .Select(preparer => preparer.gameObject);
+            IEnumerable<GameObject> multiPreparers = MultiPoolPreparers.Select(preparer => preparer.gameObject);
+            GameObject[] preparerObjects = preparers.Concat(multiPreparers).ToArray();
+            selectorProvider.Initialize(preparerObjects);
         }
 
         [Conditional("UNITY_EDITOR")]

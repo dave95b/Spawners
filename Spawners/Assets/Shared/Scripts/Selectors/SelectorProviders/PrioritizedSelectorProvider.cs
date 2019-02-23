@@ -4,17 +4,16 @@ using System;
 using System.Linq;
 using NaughtyAttributes;
 using System.Diagnostics;
-using SpawnerSystem.Shared;
 
-namespace SpawnerSystem.ObjectPooling
+namespace SpawnerSystem.Shared
 {
-    internal class PrioritizedPoolSelectorProvider : PoolSelectorProvider
+    internal class PrioritizedSelectorProvider : SelectorProvider
     {
         [SerializeField]
         private List<Entry> priorities;
 
         private PrioritizedSelector selector;
-        public override ISelector PoolSelector
+        public override ISelector Selector
         {
             get
             {
@@ -40,31 +39,24 @@ namespace SpawnerSystem.ObjectPooling
             return result;
         }
 
-        public override void Initialize<T>(PoolPreparer<T>[] poolPreparers, MultiPoolPreparer<T>[] multiPoolPreparers)
+        public override void Initialize(GameObject[] gameObjects)
         {
-            foreach (var preparer in poolPreparers)
+            foreach (var obj in gameObjects)
             {
-                var preparerObject = preparer.gameObject;
-                if (!priorities.Any(entry => entry.PoolProvider == preparerObject))
-                    priorities.Add(new Entry(preparerObject));
-            }
-            foreach (var preparer in multiPoolPreparers)
-            {
-                var preparerObject = preparer.gameObject;
-                if (!priorities.Any(entry => entry.PoolProvider == preparerObject))
-                    priorities.Add(new Entry(preparerObject));
+                if (!priorities.Any(entry => entry.GameObject == obj))
+                    priorities.Add(new Entry(obj));
             }
         }
 
         [Serializable]
         private struct Entry
         {
-            public GameObject PoolProvider;
+            public GameObject GameObject;
             public int Priority;
 
             public Entry(GameObject provider)
             {
-                PoolProvider = provider;
+                GameObject = provider;
                 Priority = 0;
             }
         }

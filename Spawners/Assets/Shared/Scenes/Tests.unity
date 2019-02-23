@@ -4668,7 +4668,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78fc530f6fa3ab41a33a5a9ee0655de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poolCount: 2
+  objectCount: 2
 --- !u!1 &637979863
 GameObject:
   m_ObjectHideFlags: 0
@@ -7159,7 +7159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78fc530f6fa3ab41a33a5a9ee0655de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poolCount: 2
+  objectCount: 2
 --- !u!1 &1162499083
 GameObject:
   m_ObjectHideFlags: 0
@@ -7360,7 +7360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78fc530f6fa3ab41a33a5a9ee0655de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poolCount: 2
+  objectCount: 2
 --- !u!1 &1198879162
 GameObject:
   m_ObjectHideFlags: 0
@@ -10453,15 +10453,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priorities:
-  - PoolProvider: {fileID: 2105667379}
+  - GameObject: {fileID: 2105667379}
     Priority: 10
-  - PoolProvider: {fileID: 610815755}
+  - GameObject: {fileID: 610815755}
     Priority: 10
-  - PoolProvider: {fileID: 1180142350}
+  - GameObject: {fileID: 1180142350}
     Priority: 10
-  - PoolProvider: {fileID: 1157820519}
+  - GameObject: {fileID: 1157820519}
     Priority: 5
-  - PoolProvider: {fileID: 625254993}
+  - GameObject: {fileID: 625254993}
     Priority: 1
 --- !u!114 &1709302181
 MonoBehaviour:

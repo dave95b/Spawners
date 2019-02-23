@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Assertions;
 
-namespace ObjectPooling
+namespace SpawnerSystem.ObjectPooling
 {
     internal class PoolExpander<T>
     {

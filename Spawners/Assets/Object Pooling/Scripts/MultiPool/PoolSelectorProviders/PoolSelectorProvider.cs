@@ -1,14 +1,12 @@
-﻿using NaughtyAttributes;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using UnityEngine;
+using SpawnerSystem.Shared;
 
-namespace ObjectPooling
+namespace SpawnerSystem.ObjectPooling
 {
     internal abstract class PoolSelectorProvider : MonoBehaviour
     {
-        public abstract IMultiPoolSelector PoolSelector { get; }
+        public abstract ISelector PoolSelector { get; }
         [Conditional("UNITY_EDITOR")]
         public abstract void Initialize<T>(PoolPreparer<T>[] poolPreparers, MultiPoolPreparer<T>[] multiPoolPreparers);
     }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
 
-namespace ObjectPooling
+namespace SpawnerSystem.ObjectPooling
 {
     public abstract class Poolable : MonoBehaviour
     {

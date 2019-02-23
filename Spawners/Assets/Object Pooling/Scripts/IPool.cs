@@ -2,7 +2,7 @@
 using UnityEngine;
 
 
-namespace ObjectPooling
+namespace SpawnerSystem.ObjectPooling
 {
     public interface IPool<T>
     {

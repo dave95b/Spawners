@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Assertions;
 
-namespace ObjectPooling
+namespace SpawnerSystem.ObjectPooling
 {
     public class Pool<T> : IPool<T>
     {

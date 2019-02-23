@@ -1,17 +1,18 @@
 ﻿using UnityEngine;
 using System;
 using UnityEngine.Assertions;
+using SpawnerSystem.Shared;
 
-namespace ObjectPooling
+namespace SpawnerSystem.ObjectPooling
 {
     public class MultiPool<T> : IPool<T>
     {
         private readonly IPool<T>[] pools;
-        private readonly IMultiPoolSelector selector;
+        private readonly ISelector selector;
         private readonly IPoolableStateResotrer<T> stateResotrer;
 
 
-        internal MultiPool(IPool<T>[] pools, IMultiPoolSelector selector, IPoolableStateResotrer<T> stateResotrer)
+        internal MultiPool(IPool<T>[] pools, ISelector selector, IPoolableStateResotrer<T> stateResotrer)
         {
             Assert.IsNotNull(pools);
             Assert.IsNotNull(selector);
@@ -24,7 +25,7 @@ namespace ObjectPooling
 
         public Poolable<T> Retrieve()
         {
-            int index = selector.SelectPoolIndex();
+            int index = selector.SelectIndex();
             return RetrieveFrom(index);
         }
 

@@ -4,25 +4,24 @@ using System;
 using System.Linq;
 using NaughtyAttributes;
 using System.Diagnostics;
+using SpawnerSystem.Shared;
 
-namespace ObjectPooling
+namespace SpawnerSystem.ObjectPooling
 {
     internal class PrioritizedPoolSelectorProvider : PoolSelectorProvider
     {
         [SerializeField]
-        private PrioritizedPoolSelector selector;
-
-        [SerializeField]
         private List<Entry> priorities;
 
-        public override IMultiPoolSelector PoolSelector
+        private PrioritizedSelector selector;
+        public override ISelector PoolSelector
         {
             get
             {
                 if (selector is null)
                 {
                     int[] priorities = GetPriorities();
-                    selector = new PrioritizedPoolSelector(priorities);
+                    selector = new PrioritizedSelector(priorities);
                 }
 
                 return selector;

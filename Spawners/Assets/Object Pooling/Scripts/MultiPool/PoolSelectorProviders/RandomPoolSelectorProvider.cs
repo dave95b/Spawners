@@ -1,21 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using NaughtyAttributes;
+using SpawnerSystem.Shared;
 
-namespace ObjectPooling
+namespace SpawnerSystem.ObjectPooling
 {
     internal class RandomPoolSelectorProvider : PoolSelectorProvider
     {
         [SerializeField, ReadOnly]
         private int poolCount;
 
-        private RandomPoolSelector selector;
-        public override IMultiPoolSelector PoolSelector
+        private RandomSelector selector;
+        public override ISelector PoolSelector
         {
             get
             {
                 if (selector is null)
-                    selector = new RandomPoolSelector(poolCount);
+                    selector = new RandomSelector(poolCount);
 
                 return selector;
             }

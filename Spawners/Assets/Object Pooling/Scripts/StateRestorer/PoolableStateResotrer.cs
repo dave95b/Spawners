@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-namespace ObjectPooling
+namespace SpawnerSystem.ObjectPooling
 {
     public interface IPoolableStateResotrer<T>
     {

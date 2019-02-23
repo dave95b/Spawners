@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ObjectPooling
+namespace SpawnerSystem.ObjectPooling
 {
     public class TransformPoolable : Poolable<Transform>
     {

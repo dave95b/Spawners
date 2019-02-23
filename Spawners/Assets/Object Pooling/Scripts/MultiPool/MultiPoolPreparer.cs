@@ -4,7 +4,7 @@ using System;
 using NaughtyAttributes;
 using System.Diagnostics;
 
-namespace ObjectPooling
+namespace SpawnerSystem.ObjectPooling
 {
     internal abstract class MultiPoolPreparer<T> : MonoBehaviour
     {

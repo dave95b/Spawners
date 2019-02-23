@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine.Assertions;
 
-namespace ObjectPooling
+namespace SpawnerSystem.Shared
 {
-    public class PrioritizedPoolSelector : IMultiPoolSelector
+    public class PrioritizedSelector : ISelector
     {
         private readonly int[] priorities;
 
-        public PrioritizedPoolSelector(int[] priorities)
+        public PrioritizedSelector(int[] priorities)
         {
             this.priorities = priorities;
         }
 
-        public int SelectPoolIndex()
+        public int SelectIndex()
         {
             int min = 0;
             int max = priorities.Length;

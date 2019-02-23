@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System;
 using System.Diagnostics;
 
-namespace ObjectPooling
+namespace SpawnerSystem.ObjectPooling
 {
     internal abstract class PoolPreparer<T> : MonoBehaviour
     {

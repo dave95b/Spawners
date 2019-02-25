@@ -12,7 +12,7 @@ namespace SpawnerSystem.ObjectPooling
         private readonly IPoolableStateResotrer<T> stateResotrer;
 
 
-        internal MultiPool(IPool<T>[] pools, ISelector selector, IPoolableStateResotrer<T> stateResotrer)
+        public MultiPool(IPool<T>[] pools, ISelector selector, IPoolableStateResotrer<T> stateResotrer)
         {
             Assert.IsNotNull(pools);
             Assert.IsNotNull(selector);

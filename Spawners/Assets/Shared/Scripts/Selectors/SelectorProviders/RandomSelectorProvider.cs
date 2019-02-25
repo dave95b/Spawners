@@ -4,7 +4,7 @@ using NaughtyAttributes;
 
 namespace SpawnerSystem.Shared
 {
-    internal class RandomSelectorProvider : SelectorProvider
+    public class RandomSelectorProvider : SelectorProvider
     {
         [SerializeField, ReadOnly]
         private int objectCount;

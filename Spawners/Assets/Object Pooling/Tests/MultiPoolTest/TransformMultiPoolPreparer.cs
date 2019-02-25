@@ -4,7 +4,7 @@ using SpawnerSystem.ObjectPooling;
 using NaughtyAttributes;
 using System.Linq;
 
-internal class TransformMultiPoolPreparer : MultiPoolPreparer<Transform>
+public class TransformMultiPoolPreparer : MultiPoolPreparer<Transform>
 {
     [SerializeField, ReorderableList]
     private TransformPoolPreparer[] poolPreparers;

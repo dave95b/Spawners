@@ -6,7 +6,7 @@ using UnityEngine.Assertions;
 
 namespace SpawnerSystem.ObjectPooling
 {
-    internal class PoolHelper<T>
+    public class PoolHelper<T>
     {
         private readonly List<Poolable<T>> pooledObjects;
 

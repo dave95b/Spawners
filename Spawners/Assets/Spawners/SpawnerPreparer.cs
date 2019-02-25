@@ -8,7 +8,7 @@ using NaughtyAttributes;
 
 namespace SpawnerSystem.Spawners
 {
-    internal abstract class SpawnerPreparer<T> : MonoBehaviour where T : Component
+    public abstract class SpawnerPreparer<T> : MonoBehaviour where T : Component
     {
         [SerializeField]
         private SpawnPoint[] spawnPoints;
@@ -17,6 +17,7 @@ namespace SpawnerSystem.Spawners
         private SelectorProvider selectorProvider;
 
         protected abstract MultiPoolPreparer<T> PoolPreparer { get; }
+        protected abstract SpawnListenerRepository<T> ListenerRepository { get; }
 
         private Spawner<T> spawner;
         public Spawner<T> Spawner
@@ -34,8 +35,9 @@ namespace SpawnerSystem.Spawners
         {
             var pool = PoolPreparer.MultiPool;
             var selector = selectorProvider.Selector;
+            var spawnListeners = ListenerRepository.Listeners;
 
-            return new Spawner<T>(pool, spawnPoints, selector, spawnListeners: null);
+            return new Spawner<T>(pool, spawnPoints, selector, spawnListeners);
         }
 
 

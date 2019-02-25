@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SpawnerSystem.Shared
 {
-    internal abstract class SelectorProvider : MonoBehaviour
+    public abstract class SelectorProvider : MonoBehaviour
     {
         public abstract ISelector Selector { get; }
         [Conditional("UNITY_EDITOR")]

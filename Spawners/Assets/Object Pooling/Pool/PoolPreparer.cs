@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace SpawnerSystem.ObjectPooling
 {
-    internal abstract class PoolPreparer<T> : MonoBehaviour
+    public abstract class PoolPreparer<T> : MonoBehaviour
     {
         [SerializeField, MinValue(1)]
         private int size = 10, expandAmount = 5, instantiatedPerFrame = 10;

@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace SpawnerSystem.Shared
 {
-    internal class PrioritizedSelectorProvider : SelectorProvider
+    public class PrioritizedSelectorProvider : SelectorProvider
     {
         [SerializeField]
         private List<Entry> priorities;

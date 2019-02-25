@@ -13,7 +13,7 @@ namespace SpawnerSystem.ObjectPooling
         private readonly IPoolableStateResotrer<T> stateResotrer;
         
 
-        internal Pool(List<Poolable<T>> pooledObjects, PoolHelper<T> helper, PoolExpander<T> expander, IPoolableStateResotrer<T> stateResotrer)
+        public Pool(List<Poolable<T>> pooledObjects, PoolHelper<T> helper, PoolExpander<T> expander, IPoolableStateResotrer<T> stateResotrer)
         {
             Assert.IsNotNull(pooledObjects);
             Assert.IsNotNull(helper);

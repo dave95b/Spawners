@@ -8,7 +8,7 @@ using SpawnerSystem.Shared;
 
 namespace SpawnerSystem.ObjectPooling
 {
-    internal abstract class MultiPoolPreparer<T> : MonoBehaviour
+    public abstract class MultiPoolPreparer<T> : MonoBehaviour
     {
         [SerializeField]
         private SelectorProvider selectorProvider;

@@ -71,6 +71,7 @@ namespace SpawnerSystem.Spawners
             {
                 ISpawnPoint spawnPoint = SelectSpawnPoint();
                 Initialize(i, spawnPoint);
+                spawnedArray[i] = poolableArray[i].Target;
             }
         }
 
@@ -88,7 +89,10 @@ namespace SpawnerSystem.Spawners
             pool.RetrieveMany(poolableArray, count);
 
             for (int i = 0; i < count; i++)
+            {
                 Initialize(i, spawnPoint);
+                spawnedArray[i] = poolableArray[i].Target;
+            }
         }
 
         public void Despawn(T spawned)

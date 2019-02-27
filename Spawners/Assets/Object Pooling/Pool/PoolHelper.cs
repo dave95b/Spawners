@@ -24,14 +24,18 @@ namespace SpawnerSystem.ObjectPooling
             pooledObjects.RemoveAt(index);
 
             poolable.gameObject.SetActive(true);
+            poolable.IsUsed = true;
 
             return poolable;
         }
 
         public void Return(Poolable<T> poolable)
         {
+            Assert.IsTrue(poolable.IsUsed);
+
             pooledObjects.Add(poolable);
             poolable.gameObject.SetActive(false);
+            poolable.IsUsed = false;
         }
     }
 }

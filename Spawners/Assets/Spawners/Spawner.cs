@@ -37,7 +37,7 @@ namespace SpawnerSystem.Spawners
             this.spawnListeners = spawnListeners;
         }
 
-        
+
         public T Spawn()
         {
             ISpawnPoint spawnPoint = SelectSpawnPoint();
@@ -70,8 +70,7 @@ namespace SpawnerSystem.Spawners
             for (int i = 0; i < count; i++)
             {
                 ISpawnPoint spawnPoint = SelectSpawnPoint();
-                Initialize(i, spawnPoint);
-                spawnedArray[i] = poolableArray[i].Target;
+                Initialize(spawnedArray, i, spawnPoint);
             }
         }
 
@@ -89,15 +88,15 @@ namespace SpawnerSystem.Spawners
             pool.RetrieveMany(poolableArray, count);
 
             for (int i = 0; i < count; i++)
-            {
-                Initialize(i, spawnPoint);
-                spawnedArray[i] = poolableArray[i].Target;
-            }
+                Initialize(spawnedArray, i, spawnPoint);
         }
 
         public void Despawn(T spawned)
         {
             Assert.IsNotNull(spawned);
+            Poolable<T> poolable = spawnedPoolables[spawned];
+            if (!poolable.IsUsed)
+                return;
 
             if (spawnListeners != null)
             {
@@ -105,7 +104,6 @@ namespace SpawnerSystem.Spawners
                     listener.OnDespawned(spawned);
             }
 
-            Poolable<T> poolable = spawnedPoolables[spawned];
             pool.Return(poolable);
         }
 
@@ -117,10 +115,11 @@ namespace SpawnerSystem.Spawners
             return spawnPoints[spawnPointIndex];
         }
 
-        private void Initialize(int index, ISpawnPoint spawnPoint)
+        private void Initialize(T[] spawnedArray, int index, ISpawnPoint spawnPoint)
         {
             Poolable<T> poolable = poolableArray[index];
             Initialize(poolable, spawnPoint);
+            spawnedArray[index] = poolable.Target;
         }
 
         private void Initialize(Poolable<T> poolable, ISpawnPoint spawnPoint)

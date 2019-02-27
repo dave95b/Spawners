@@ -8,27 +8,23 @@ namespace SpawnerSystem.ObjectPooling
 {
     public class PoolExpander<T>
     {
-        public Pool<T> Pool;
         private readonly List<Poolable<T>> pooledObjects;
         private readonly int expandAmount, instantiatedPerFrame;
-        private readonly Transform objectsParent;
-        private readonly Poolable<T> prefab;
+        private readonly IPoolableFactory<T> poolableFactory;
 
         private int instantiateAmount = 0;
 
-        public PoolExpander(List<Poolable<T>> pooledObjects, int expandAmount, int instantiatedPerFrame, Transform objectsParent, Poolable<T> prefab)
+        public PoolExpander(List<Poolable<T>> pooledObjects, int expandAmount, int instantiatedPerFrame, IPoolableFactory<T> poolableFactory)
         {
             Assert.IsNotNull(pooledObjects);
             Assert.IsTrue(expandAmount > 0);
             Assert.IsTrue(instantiatedPerFrame > 0);
-            Assert.IsNotNull(objectsParent);
-            Assert.IsNotNull(prefab);
+            Assert.IsNotNull(poolableFactory);
 
             this.pooledObjects = pooledObjects;
             this.expandAmount = expandAmount;
             this.instantiatedPerFrame = instantiatedPerFrame;
-            this.objectsParent = objectsParent;
-            this.prefab = prefab;
+            this.poolableFactory = poolableFactory;
         }
 
 
@@ -42,10 +38,10 @@ namespace SpawnerSystem.ObjectPooling
             Assert.IsTrue(amount > 0);
 
             if (amount <= instantiatedPerFrame)
-                Instantiate(amount);
+                CreatePoolables(amount);
             else
             {
-                Instantiate(instantiatedPerFrame);
+                CreatePoolables(instantiatedPerFrame);
                 instantiateAmount = amount - instantiatedPerFrame;
             }
         }
@@ -57,15 +53,14 @@ namespace SpawnerSystem.ObjectPooling
 
             int toInstantiate = Mathf.Min(instantiatedPerFrame, instantiateAmount);
             instantiateAmount -= toInstantiate;
-            Instantiate(toInstantiate);
+            CreatePoolables(toInstantiate);
         }
 
-        private void Instantiate(int amount)
+        private void CreatePoolables(int amount)
         {
             for (int i = 0; i < amount; i++)
             {
-                var created = GameObject.Instantiate(prefab, Vector3.zero, Quaternion.identity, objectsParent);
-                created.Pool = Pool;
+                var created = poolableFactory.Create();
                 created.gameObject.SetActive(false);
                 pooledObjects.Add(created);
             }

@@ -17,8 +17,13 @@ namespace SpawnerSystem.Spawners
         private readonly Dictionary<T, Poolable<T>> spawnedPoolables;
         private Poolable<T>[] poolableArray;
 
+        
+        public Spawner(IPool<T> pool, ISpawnPoint[] spawnPoints, ISelector spawnPointSelector) : this(pool, spawnPoints, spawnPointSelector, Array.Empty<ISpawnListener<T>>())
+        {
+            
+        }
 
-        public Spawner(IPool<T> pool, ISpawnPoint[] spawnPoints, ISelector spawnPointSelector)
+        public Spawner(IPool<T> pool, ISpawnPoint[] spawnPoints, ISelector spawnPointSelector, ISpawnListener<T>[] spawnListeners)
         {
             Assert.IsNotNull(pool);
             Assert.IsNotNull(spawnPoints);
@@ -27,14 +32,10 @@ namespace SpawnerSystem.Spawners
             this.pool = pool;
             this.spawnPoints = spawnPoints;
             this.spawnPointSelector = spawnPointSelector;
+            this.spawnListeners = spawnListeners;
 
             spawnedPoolables = new Dictionary<T, Poolable<T>>();
             poolableArray = new Poolable<T>[16];
-        }
-
-        public Spawner(IPool<T> pool, ISpawnPoint[] spawnPoints, ISelector spawnPointSelector, ISpawnListener<T>[] spawnListeners) : this(pool, spawnPoints, spawnPointSelector)
-        {
-            this.spawnListeners = spawnListeners;
         }
 
 
@@ -94,15 +95,14 @@ namespace SpawnerSystem.Spawners
         public void Despawn(T spawned)
         {
             Assert.IsNotNull(spawned);
+            Assert.IsTrue(spawnedPoolables.ContainsKey(spawned));
+
             Poolable<T> poolable = spawnedPoolables[spawned];
             if (!poolable.IsUsed)
                 return;
 
-            if (spawnListeners != null)
-            {
-                foreach (var listener in spawnListeners)
-                    listener.OnDespawned(spawned);
-            }
+            foreach (var listener in spawnListeners)
+                listener.OnDespawned(spawned);
 
             pool.Return(poolable);
         }
@@ -130,11 +130,8 @@ namespace SpawnerSystem.Spawners
             spawnPoint.Apply(spawned.transform);
             spawnedPoolables[spawned] = poolable;
 
-            if (spawnListeners != null)
-            {
-                foreach (var listener in spawnListeners)
-                    listener.OnSpawned(spawned);
-            }
+            foreach (var listener in spawnListeners)
+                listener.OnSpawned(spawned);
         }
 
         private void CheckPoolableArraySize(int count)

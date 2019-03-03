@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4393127747428784785}
   - component: {fileID: 3333443188457912515}
+  - component: {fileID: 2760939245513778845}
   m_Layer: 0
-  m_Name: Transform Poolable
+  m_Name: Transform Poolable Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,8 +45,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60e4a68d5e033bc45b10449f43cba87c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Pool: {fileID: 0}
   Target: {fileID: 4393127747428784785}
+  IsUsed: 0
+--- !u!114 &2760939245513778845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 816973936112538041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49253785147097b45a20d0f467d8d215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 3
 --- !u!1 &5381094443694743495
 GameObject:
   m_ObjectHideFlags: 0

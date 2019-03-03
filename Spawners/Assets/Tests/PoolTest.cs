@@ -10,6 +10,9 @@ public class PoolTest : MonoBehaviour
     [SerializeField]
     private int retrieveCount = 5;
 
+    [SerializeField]
+    private float returnDelay = 2f;
+
     private Pool<Transform> pool;
     private Poolable<Transform> poolable;
     private Poolable<Transform>[] poolables;
@@ -55,7 +58,7 @@ public class PoolTest : MonoBehaviour
 
     private IEnumerator DelayReturn(Poolable<Transform> poolable)
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(returnDelay);
         pool.Return(poolable);
     }
 }

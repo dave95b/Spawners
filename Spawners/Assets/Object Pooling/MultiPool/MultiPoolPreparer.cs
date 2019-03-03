@@ -15,7 +15,7 @@ namespace SpawnerSystem.ObjectPooling
 
         protected abstract PoolPreparer<T>[] PoolPreparers { get; }
         protected abstract MultiPoolPreparer<T>[] MultiPoolPreparers { get; }
-        protected abstract IPoolableStateResotrer<T> StateRestorer { get; }
+        protected virtual IPoolableStateResotrer<T> StateRestorer { get; }
 
         private MultiPool<T> multiPool;
         public MultiPool<T> MultiPool
@@ -75,6 +75,15 @@ namespace SpawnerSystem.ObjectPooling
         private void OnValidate()
         {
             InitializeSelector();
+        }
+
+        [Conditional("UNITY_EDITOR"), Button]
+        public void CreateObjects()
+        {
+            foreach (var preparer in PoolPreparers)
+                preparer.CreateObjects();
+            foreach (var preparer in MultiPoolPreparers)
+                preparer.CreateObjects();
         }
 
         protected bool PreparersPredicate(PoolPreparer<T> preparer)

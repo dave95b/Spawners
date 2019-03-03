@@ -24,7 +24,7 @@ namespace SpawnerSystem.ObjectPooling
             this.parent = parent;
         }
 
-        public Poolable<T> Create()
+        public virtual Poolable<T> Create()
         {
             var created = Object.Instantiate(prefab, Vector3.zero, Quaternion.identity, parent);
             created.Pool = Pool;

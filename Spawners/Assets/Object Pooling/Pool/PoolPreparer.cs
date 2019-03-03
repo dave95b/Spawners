@@ -57,7 +57,7 @@ namespace SpawnerSystem.ObjectPooling
         }
 
         [Conditional("UNITY_EDITOR"), Button]
-        protected void CreateObjects()
+        public void CreateObjects()
         {
             for (int i = 0; i < size; i++)
             {

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using SpawnerSystem.ObjectPooling;
 using SpawnerSystem.Shared;
@@ -35,7 +35,7 @@ namespace SpawnerSystem.Spawners
         {
             var pool = PoolPreparer.MultiPool;
             var selector = selectorProvider.Selector;
-            var spawnListeners = ListenerRepository.Listeners;
+            var spawnListeners = new List<ISpawnListener<T>>(ListenerRepository.Listeners);
 
             return new Spawner<T>(pool, spawnPoints, selector, spawnListeners);
         }

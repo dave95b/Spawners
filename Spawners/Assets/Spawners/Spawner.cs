@@ -12,18 +12,18 @@ namespace SpawnerSystem.Spawners
         private readonly IPool<T> pool;
         private readonly ISpawnPoint[] spawnPoints;
         private readonly ISelector spawnPointSelector;
-        private readonly ISpawnListener<T>[] spawnListeners;
+        private readonly List<ISpawnListener<T>> spawnListeners;
 
         private readonly Dictionary<T, Poolable<T>> spawnedPoolables;
         private Poolable<T>[] poolableArray;
 
         
-        public Spawner(IPool<T> pool, ISpawnPoint[] spawnPoints, ISelector spawnPointSelector) : this(pool, spawnPoints, spawnPointSelector, Array.Empty<ISpawnListener<T>>())
+        public Spawner(IPool<T> pool, ISpawnPoint[] spawnPoints, ISelector spawnPointSelector) : this(pool, spawnPoints, spawnPointSelector, new List<ISpawnListener<T>>())
         {
             
         }
 
-        public Spawner(IPool<T> pool, ISpawnPoint[] spawnPoints, ISelector spawnPointSelector, ISpawnListener<T>[] spawnListeners)
+        public Spawner(IPool<T> pool, ISpawnPoint[] spawnPoints, ISelector spawnPointSelector, List<ISpawnListener<T>> spawnListeners)
         {
             Assert.IsNotNull(pool);
             Assert.IsNotNull(spawnPoints);
@@ -105,6 +105,16 @@ namespace SpawnerSystem.Spawners
                 listener.OnDespawned(spawned);
 
             pool.Return(poolable);
+        }
+
+        public void AddListener(ISpawnListener<T> listener)
+        {
+            spawnListeners.Add(listener);
+        }
+
+        public void RemoveListener(ISpawnListener<T> listener)
+        {
+            spawnListeners.Remove(listener);
         }
 
         private ISpawnPoint SelectSpawnPoint()

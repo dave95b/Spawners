@@ -18,7 +18,6 @@ namespace SpawnerSystem.ObjectPooling
             Assert.IsNotNull(pooledObjects);
             Assert.IsNotNull(helper);
             Assert.IsNotNull(expander);
-            Assert.IsNotNull(stateResotrer);
 
             this.pooledObjects = pooledObjects;
             this.helper = helper;
@@ -34,7 +33,7 @@ namespace SpawnerSystem.ObjectPooling
 
             var poolable = helper.Retrieve();
             Assert.IsNotNull(poolable);
-            stateResotrer.OnRetrieve(poolable);
+            stateResotrer?.OnRetrieve(poolable);
 
             return poolable;
         }
@@ -60,7 +59,7 @@ namespace SpawnerSystem.ObjectPooling
         public void Return(Poolable<T> poolable)
         {
             Assert.IsNotNull(poolable);
-            stateResotrer.OnReturn(poolable);
+            stateResotrer?.OnReturn(poolable);
             helper.Return(poolable);
         }
     }

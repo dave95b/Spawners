@@ -35,10 +35,9 @@ namespace SpawnerSystem.ObjectPooling
             GetPrewarmedObjects(pooledObjects);
 
             var helper = new PoolHelper<T>(pooledObjects);
-            var poolableFactory = PoolableFactory ?? new PoolableFactory<T>(Prefab, transform);
+            var poolableFactory = PoolableFactory ?? new PoolableFactory<T>(Prefab, transform, StateRestorer);
             expander = new PoolExpander<T>(pooledObjects, expandAmount, instantiatedPerFrame, poolableFactory);
-            var stateRestorer = StateRestorer ?? new DefaultStateRestorer<T>();
-            var pool = new Pool<T>(pooledObjects, helper, expander, stateRestorer);
+            var pool = new Pool<T>(pooledObjects, helper, expander, StateRestorer);
 
             poolableFactory.Pool = pool;
 
@@ -63,7 +62,7 @@ namespace SpawnerSystem.ObjectPooling
             for (int i = 0; i < size; i++)
             {
                 var created = Instantiate(Prefab, Vector3.zero, Quaternion.identity, transform);
-                created.gameObject.SetActive(false);
+                StateRestorer?.OnReturn(created);
             }
         }
 

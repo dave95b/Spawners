@@ -5,16 +5,14 @@ using NaughtyAttributes;
 
 namespace SpawnerSystem.ObjectPooling
 {
-    public abstract class Poolable : MonoBehaviour
-    {
-    }
-
-    public abstract class Poolable<T> : Poolable
+    public abstract class Poolable<T> : MonoBehaviour
     {
         [SerializeField]
         public T Target;
 
         public Pool<T> Pool;
+        
+        [ReadOnly]
         public bool IsUsed;
     }
 }

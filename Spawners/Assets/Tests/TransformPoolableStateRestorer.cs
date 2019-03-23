@@ -4,8 +4,14 @@ using SpawnerSystem.ObjectPooling;
 
 public class TransformPoolableStateRestorer : MonoBehaviour, IPoolableStateResotrer<Transform>
 {
-    public void Restore(Transform target)
+    public void OnRetrieve(Poolable<Transform> poolable)
     {
-        target.localScale = Vector3.one;
+        poolable.gameObject.SetActive(true);
+        poolable.Target.localScale = Vector3.one;
+    }
+
+    public void OnReturn(Poolable<Transform> poolable)
+    {
+        poolable.gameObject.SetActive(false);
     }
 }

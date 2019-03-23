@@ -13,7 +13,7 @@ namespace SpawnerSystem.ObjectPooling
         private int size = 10, expandAmount = 5, instantiatedPerFrame = 10;
 
         protected abstract Poolable<T> Prefab { get; }
-        protected abstract IPoolableStateResotrer<T> StateRestorer { get; }
+        protected virtual IPoolableStateResotrer<T> StateRestorer { get; }
         protected virtual IPoolableFactory<T> PoolableFactory { get; }
 
         private Pool<T> pool;
@@ -37,7 +37,8 @@ namespace SpawnerSystem.ObjectPooling
             var helper = new PoolHelper<T>(pooledObjects);
             var poolableFactory = PoolableFactory ?? new PoolableFactory<T>(Prefab, transform);
             expander = new PoolExpander<T>(pooledObjects, expandAmount, instantiatedPerFrame, poolableFactory);
-            var pool = new Pool<T>(pooledObjects, helper, expander, StateRestorer);
+            var stateRestorer = StateRestorer ?? new DefaultStateRestorer<T>();
+            var pool = new Pool<T>(pooledObjects, helper, expander, stateRestorer);
 
             poolableFactory.Pool = pool;
 

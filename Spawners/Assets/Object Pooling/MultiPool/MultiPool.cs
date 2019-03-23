@@ -34,7 +34,7 @@ namespace SpawnerSystem.ObjectPooling
             Assert.IsTrue(poolIndex < pools.Length);
 
             var poolable = pools[poolIndex].Retrieve();
-            stateResotrer?.Restore(poolable.Target);
+            stateResotrer?.OnRetrieve(poolable);
 
             return poolable;
         }
@@ -76,12 +76,13 @@ namespace SpawnerSystem.ObjectPooling
                 return;
 
             for (int i = 0; i < count; i++)
-                stateResotrer.Restore(poolables[i].Target);
+                stateResotrer.OnRetrieve(poolables[i]);
         }
 
         public void Return(Poolable<T> poolable)
         {
             poolable.Pool.Return(poolable);
+            stateResotrer?.OnReturn(poolable);
         }
     }
 }

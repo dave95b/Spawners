@@ -7,6 +7,7 @@ namespace SpawnerSystem.ObjectPooling
     {
         Pool<T> Pool { get; set; }
         Poolable<T> Create();
+        void OnCreated(Poolable<T> created);
     }
 
     public class PoolableFactory<T> : IPoolableFactory<T>
@@ -26,12 +27,18 @@ namespace SpawnerSystem.ObjectPooling
             this.stateResotrer = stateResotrer;
         }
 
-        public virtual Poolable<T> Create()
+        public Poolable<T> Create()
         {
             var created = Object.Instantiate(prefab, Vector3.zero, Quaternion.identity, parent);
             created.Pool = Pool;
             stateResotrer?.OnReturn(created);
+            OnCreated(created);
             return created;
+        }
+
+        public virtual void OnCreated(Poolable<T> created)
+        {
+
         }
     }
 }

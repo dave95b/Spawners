@@ -53,18 +53,22 @@ namespace SpawnerSystem.ObjectPooling
 
         private void Update()
         {
-            expander.Update();
+            expander?.Update();
         }
 
-        [Conditional("UNITY_EDITOR"), Button]
+#if UNITY_EDITOR
+        [Button]
         public void CreateObjects()
         {
             for (int i = 0; i < size; i++)
             {
-                var created = Instantiate(Prefab, Vector3.zero, Quaternion.identity, transform);
+                var created = UnityEditor.PrefabUtility.InstantiatePrefab(Prefab, transform) as Poolable<T>;
+                created.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
                 StateRestorer?.OnReturn(created);
+                PoolableFactory?.OnCreated(created);
             }
         }
+#endif
 
         private void GetPrewarmedObjects(List<Poolable<T>> pooledObjects)
         {

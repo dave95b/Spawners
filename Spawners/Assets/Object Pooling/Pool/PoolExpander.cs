@@ -61,7 +61,6 @@ namespace SpawnerSystem.ObjectPooling
             for (int i = 0; i < amount; i++)
             {
                 var created = poolableFactory.Create();
-                created.gameObject.SetActive(false);
                 pooledObjects.Add(created);
             }
         }

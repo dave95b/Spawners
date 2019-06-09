@@ -55,10 +55,11 @@ namespace SpawnerSystem.ObjectPooling
             return pools;
         }
 
-        [Conditional("UNITY_EDITOR"), Button]
+#if UNITY_EDITOR
+        [Button]
         protected abstract void FindPoolPreparers();
 
-        [Conditional("UNITY_EDITOR"), Button]
+        [Button]
         protected void InitializeSelector()
         {
             if (selectorProvider == null)
@@ -71,13 +72,12 @@ namespace SpawnerSystem.ObjectPooling
             selectorProvider.Initialize(preparerObjects);
         }
 
-        [Conditional("UNITY_EDITOR")]
         private void OnValidate()
         {
             InitializeSelector();
         }
 
-        [Conditional("UNITY_EDITOR"), Button]
+        [Button]
         public void CreateObjects()
         {
             foreach (var preparer in PoolPreparers)
@@ -95,5 +95,6 @@ namespace SpawnerSystem.ObjectPooling
         {
             return preparer != this && preparer.transform.parent == transform;
         }
+#endif
     }
 }

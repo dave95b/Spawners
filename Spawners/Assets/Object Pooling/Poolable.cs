@@ -15,6 +15,7 @@ namespace SpawnerSystem.ObjectPooling
         public T Target;
 
         public Pool<T> Pool;
+        [ReadOnly]
         public bool IsUsed;
     }
 }

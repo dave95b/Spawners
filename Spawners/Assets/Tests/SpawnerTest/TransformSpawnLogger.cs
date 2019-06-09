@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using SpawnerSystem.Spawners;
 
-public class TransformSpawnLogger : TransformSpawnListener
+public class TransformSpawnLogger : MonoBehaviour, ISpawnListener<Transform>
 {
-    public override void OnSpawned(Transform spawned)
+    public void OnSpawned(Transform spawned)
     {
         Debug.Log($"{spawned.name} has just spawned!");
     }
 
-    public override void OnDespawned(Transform despawned)
+    public void OnDespawned(Transform despawned)
     {
         Debug.Log($"{despawned.name} has just despawned!");
     }

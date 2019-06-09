@@ -9,7 +9,12 @@ public class TransformSpawnerPreparer : SpawnerPreparer<Transform>
     private TransformMultiPoolPreparer poolPreparer;
     protected override MultiPoolPreparer<Transform> PoolPreparer => poolPreparer;
 
-    [SerializeField]
-    private TransformSpawnListenerRepository listenerRepository;
-    protected override SpawnListenerRepository<Transform> ListenerRepository => listenerRepository;
+    protected override List<ISpawnListener<Transform>> SpawnListeners
+    {
+        get
+        {
+            var listeners = GetComponentsInChildren<ISpawnListener<Transform>>();
+            return new List<ISpawnListener<Transform>>(listeners);
+        }
+    }
 }

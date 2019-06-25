@@ -35,7 +35,7 @@ namespace SpawnerSystem.Spawners
         {
             var pool = PoolPreparer.MultiPool;
             var selector = selectorProvider.Selector;
-            var spawnListeners = SpawnListeners ?? new List<ISpawnListener<T>>();
+            var spawnListeners = SpawnListeners ?? new List<ISpawnListener<T>>(GetComponentsInChildren<ISpawnListener<T>>());
 
             return new Spawner<T>(pool, spawnPoints, selector, spawnListeners);
         }

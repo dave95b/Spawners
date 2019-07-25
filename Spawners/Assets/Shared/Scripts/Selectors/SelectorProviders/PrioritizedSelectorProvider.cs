@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace SpawnerSystem.Shared
 {
-    public class PrioritizedSelectorProvider : SelectorProvider
+    public partial class PrioritizedSelectorProvider : SelectorProvider
     {
         [SerializeField]
         private List<Entry> priorities;
@@ -19,24 +19,12 @@ namespace SpawnerSystem.Shared
             {
                 if (selector is null)
                 {
-                    int[] priorities = GetPriorities();
-                    selector = new PrioritizedSelector(priorities);
+                    var converted = new ConvertedCollection<Entry, float>(priorities, entry => entry.Priority);
+                    selector = new PrioritizedSelector(converted);
                 }
 
                 return selector;
             }
-        }
-
-        private int[] GetPriorities()
-        {
-            int length = priorities.Count;
-            int[] result = new int[length];
-            result[0] = priorities[0].Priority;
-
-            for (int i = 1; i < length; i++)
-                result[i] = priorities[i].Priority + result[i - 1];
-
-            return result;
         }
 
         public override void Initialize(GameObject[] gameObjects)
@@ -52,13 +40,34 @@ namespace SpawnerSystem.Shared
         private struct Entry
         {
             public GameObject GameObject;
-            public int Priority;
+            public float Priority;
 
             public Entry(GameObject provider)
             {
                 GameObject = provider;
-                Priority = 0;
+                Priority = 0f;
             }
         }
     }
+
+#if UNITY_EDITOR
+    partial class PrioritizedSelectorProvider
+    {
+        private void OnValidate()
+        {
+            for (int i = 0; i < priorities.Count; i++)
+            {
+                var entry = priorities[i];
+                entry.Priority = Mathf.Max(entry.Priority, 0f);
+                priorities[i] = entry;
+            }
+
+            if (selector != null)
+            {
+                var converted = new ConvertedCollection<Entry, float>(priorities, entry => entry.Priority);
+                selector.ChangePriorities(converted);
+            }
+        }
+    }
+#endif
 }

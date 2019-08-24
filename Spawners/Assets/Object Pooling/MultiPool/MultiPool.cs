@@ -1,7 +1,5 @@
-﻿using UnityEngine;
-using System;
+﻿using SpawnerSystem.Shared;
 using UnityEngine.Assertions;
-using SpawnerSystem.Shared;
 
 namespace SpawnerSystem.ObjectPooling
 {
@@ -9,17 +7,17 @@ namespace SpawnerSystem.ObjectPooling
     {
         private readonly IPool<T>[] pools;
         private readonly ISelector selector;
-        private readonly IPoolableStateResotrer<T> stateResotrer;
+        private readonly IPoolableStateRestorer<T> stateRestorer;
 
 
-        public MultiPool(IPool<T>[] pools, ISelector selector, IPoolableStateResotrer<T> stateResotrer)
+        public MultiPool(IPool<T>[] pools, ISelector selector, IPoolableStateRestorer<T> stateRestorer)
         {
             Assert.IsNotNull(pools);
             Assert.IsNotNull(selector);
 
             this.pools = pools;
             this.selector = selector;
-            this.stateResotrer = stateResotrer;
+            this.stateRestorer = stateRestorer;
         }
 
 
@@ -34,7 +32,7 @@ namespace SpawnerSystem.ObjectPooling
             Assert.IsTrue(poolIndex < pools.Length);
 
             var poolable = pools[poolIndex].Retrieve();
-            stateResotrer?.OnRetrieve(poolable);
+            stateRestorer?.OnRetrieve(poolable);
 
             return poolable;
         }
@@ -72,17 +70,17 @@ namespace SpawnerSystem.ObjectPooling
             var pool = pools[poolIndex];
             pool.RetrieveMany(poolables, count);
 
-            if (stateResotrer is null)
+            if (stateRestorer is null)
                 return;
 
             for (int i = 0; i < count; i++)
-                stateResotrer.OnRetrieve(poolables[i]);
+                stateRestorer.OnRetrieve(poolables[i]);
         }
 
         public void Return(Poolable<T> poolable)
         {
             poolable.Pool.Return(poolable);
-            stateResotrer?.OnReturn(poolable);
+            stateRestorer?.OnReturn(poolable);
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System;
 using System.Runtime.CompilerServices;
 
 public readonly struct ConvertedCollection<TInput, TOutput> : IReadOnlyList<TOutput>

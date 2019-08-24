@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using NaughtyAttributes;
 using UnityEngine;
-using NaughtyAttributes;
 
 namespace SpawnerSystem.ObjectPooling
 {
@@ -23,5 +21,7 @@ namespace SpawnerSystem.ObjectPooling
         {
             Target = GetComponent<T>();
         }
+
+        public static implicit operator T(Poolable<T> poolable) => poolable.Target;
     }
 }

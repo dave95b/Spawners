@@ -1,10 +1,8 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-using System;
-using System.Linq;
-using NaughtyAttributes;
-using System.Diagnostics;
+﻿using NaughtyAttributes;
 using SpawnerSystem.Shared;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace SpawnerSystem.ObjectPooling
 {
@@ -15,7 +13,7 @@ namespace SpawnerSystem.ObjectPooling
 
         protected abstract PoolPreparer<T>[] PoolPreparers { get; }
         protected abstract MultiPoolPreparer<T>[] MultiPoolPreparers { get; }
-        protected virtual IPoolableStateResotrer<T> StateRestorer { get; }
+        protected virtual IPoolableStateRestorer<T> StateRestorer { get; }
 
         private MultiPool<T> multiPool;
         public MultiPool<T> MultiPool

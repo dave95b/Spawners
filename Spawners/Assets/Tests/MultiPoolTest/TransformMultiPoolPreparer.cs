@@ -1,8 +1,7 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using NaughtyAttributes;
 using SpawnerSystem.ObjectPooling;
-using NaughtyAttributes;
 using System.Linq;
+using UnityEngine;
 
 public class TransformMultiPoolPreparer : MultiPoolPreparer<Transform>
 {
@@ -16,7 +15,7 @@ public class TransformMultiPoolPreparer : MultiPoolPreparer<Transform>
 
     [SerializeField]
     private TransformPoolableStateRestorer restorer;
-    protected override IPoolableStateResotrer<Transform> StateRestorer => restorer;
+    protected override IPoolableStateRestorer<Transform> StateRestorer => restorer;
 
     protected override void FindPoolPreparers()
     {

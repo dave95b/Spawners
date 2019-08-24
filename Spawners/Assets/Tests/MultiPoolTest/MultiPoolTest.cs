@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using SpawnerSystem.ObjectPooling;
+using System.Collections;
 using UnityEngine;
-using SpawnerSystem.ObjectPooling;
 
 public class MultiPoolTest : MonoBehaviour
 {

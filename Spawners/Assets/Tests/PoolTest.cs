@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using SpawnerSystem.ObjectPooling;
 using System.Collections;
-using SpawnerSystem.ObjectPooling;
+using UnityEngine;
 
 public class PoolTest : MonoBehaviour
 {

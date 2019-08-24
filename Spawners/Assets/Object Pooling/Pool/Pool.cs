@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine.Assertions;
 
 namespace SpawnerSystem.ObjectPooling
@@ -10,10 +8,10 @@ namespace SpawnerSystem.ObjectPooling
         private readonly List<Poolable<T>> pooledObjects;
         private readonly PoolHelper<T> helper;
         private readonly PoolExpander<T> expander;
-        private readonly IPoolableStateResotrer<T> stateResotrer;
-        
+        private readonly IPoolableStateRestorer<T> stateRestorer;
 
-        public Pool(List<Poolable<T>> pooledObjects, PoolHelper<T> helper, PoolExpander<T> expander, IPoolableStateResotrer<T> stateResotrer)
+
+        public Pool(List<Poolable<T>> pooledObjects, PoolHelper<T> helper, PoolExpander<T> expander, IPoolableStateRestorer<T> stateRestorer)
         {
             Assert.IsNotNull(pooledObjects);
             Assert.IsNotNull(helper);
@@ -22,7 +20,7 @@ namespace SpawnerSystem.ObjectPooling
             this.pooledObjects = pooledObjects;
             this.helper = helper;
             this.expander = expander;
-            this.stateResotrer = stateResotrer;
+            this.stateRestorer = stateRestorer;
         }
 
 
@@ -33,7 +31,7 @@ namespace SpawnerSystem.ObjectPooling
 
             var poolable = helper.Retrieve();
             Assert.IsNotNull(poolable);
-            stateResotrer?.OnRetrieve(poolable);
+            stateRestorer?.OnRetrieve(poolable);
 
             return poolable;
         }
@@ -59,7 +57,7 @@ namespace SpawnerSystem.ObjectPooling
         public void Return(Poolable<T> poolable)
         {
             Assert.IsNotNull(poolable);
-            stateResotrer?.OnReturn(poolable);
+            stateRestorer?.OnReturn(poolable);
             helper.Return(poolable);
         }
     }

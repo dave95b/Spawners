@@ -15,9 +15,9 @@ namespace SpawnerSystem.ObjectPooling
         public Pool<T> Pool { get; set; }
         private readonly Poolable<T> prefab;
         private readonly Transform parent;
-        private readonly IPoolableStateResotrer<T> stateResotrer;
+        private readonly IPoolableStateRestorer<T> stateResotrer;
 
-        public PoolableFactory(Poolable<T> prefab, Transform parent, IPoolableStateResotrer<T> stateResotrer)
+        public PoolableFactory(Poolable<T> prefab, Transform parent, IPoolableStateRestorer<T> stateResotrer)
         {
             Assert.IsNotNull(prefab);
             Assert.IsNotNull(parent);

@@ -1,9 +1,7 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-using SpawnerSystem.ObjectPooling;
-using NaughtyAttributes;
+﻿using SpawnerSystem.ObjectPooling;
+using UnityEngine;
 
-class TransformPoolPreparer : PoolPreparer<Transform>
+internal class TransformPoolPreparer : PoolPreparer<Transform>
 {
     [SerializeField]
     private TransformPoolable prefab;
@@ -11,5 +9,5 @@ class TransformPoolPreparer : PoolPreparer<Transform>
 
     [SerializeField]
     private TransformPoolableStateRestorer restorer;
-    protected override IPoolableStateResotrer<Transform> StateRestorer => restorer;
+    protected override IPoolableStateRestorer<Transform> StateRestorer => restorer;
 }

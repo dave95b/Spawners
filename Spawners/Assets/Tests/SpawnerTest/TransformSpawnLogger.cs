@@ -1,6 +1,5 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-using SpawnerSystem.Spawners;
+﻿using SpawnerSystem.Spawners;
+using UnityEngine;
 
 public class TransformSpawnLogger : MonoBehaviour, ISpawnListener<Transform>
 {

@@ -1,9 +1,6 @@
-﻿using UnityEngine;
-using System.Collections;
-using NaughtyAttributes;
+﻿using NaughtyAttributes;
 using System.Collections.Generic;
-using System;
-using System.Diagnostics;
+using UnityEngine;
 
 namespace SpawnerSystem.ObjectPooling
 {
@@ -13,7 +10,7 @@ namespace SpawnerSystem.ObjectPooling
         private int size = 10, expandAmount = 5, instantiatedPerFrame = 10;
 
         protected abstract Poolable<T> Prefab { get; }
-        protected virtual IPoolableStateResotrer<T> StateRestorer { private set; get; }
+        protected virtual IPoolableStateRestorer<T> StateRestorer { private set; get; }
         protected virtual IPoolableFactory<T> PoolableFactory { get; }
 
         private Pool<T> pool;

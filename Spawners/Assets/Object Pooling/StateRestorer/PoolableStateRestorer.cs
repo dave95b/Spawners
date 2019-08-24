@@ -1,15 +1,12 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-
-namespace SpawnerSystem.ObjectPooling
+﻿namespace SpawnerSystem.ObjectPooling
 {
-    public interface IPoolableStateResotrer<T>
+    public interface IPoolableStateRestorer<T>
     {
         void OnRetrieve(Poolable<T> poolable);
         void OnReturn(Poolable<T> poolable);
     }
 
-    public class DefaultStateRestorer<T> : IPoolableStateResotrer<T>
+    public class DefaultStateRestorer<T> : IPoolableStateRestorer<T>
     {
         public void OnRetrieve(Poolable<T> poolable)
         {

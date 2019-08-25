@@ -1,6 +1,20 @@
 # Spawners
 Spawners and Object Pooling for Unity.
 
+## Table Of Contents
+- [Object Pooling](../../../Spawners#object-pooling)
+  - [How does it work?](../../../Spawners#how-does-it-work)
+  - [Scripting API](../../../Spawners#scripting-api)
+  - [Multi Pool](../../../Spawners#multi-pool)
+  - [Example](../../../Spawners#example)
+  - [Multi Pool Example](../../../Spawners#multi-pool-example)
+- [Spawners](../../../Spawners#spawners)
+  - [How does it work?](../../../Spawners#how-does-it-work-1)
+  - [Scripting API](../../../Spawners#scripting-api-1)
+  - [Spawn Listeners](../../../Spawners#spawn-listeners)
+  - [Spawn Points](../../../Spawners#spawn-points)
+  - [Example](../../../Spawners#example-1)
+
 ## Object Pooling
 Object pooling is a technique, which reduces heap memory allocations, by recycling objects. Pool is made to be lightweight and efficient, it's also responsible for:
 - Tracking pooled objects
@@ -49,6 +63,13 @@ Poolable<T> poolable = pool.RetrieveFrom(poolIndex);
 pool.RetrieveManyFrom(poolables, poolIndex);
 pool.RetrieveManyFrom(poolables, poolIndex, count: 5);
 ```
+
+#### Selectors
+When Retrieve or RetrieveMany methods are invoked, used Pool is selected based on provided ISelector interface implementation. Currently, there are following Selectors available:
+- **Random** - selects Pools randomly
+- **Priority based** - Pools are selected based on given priorities. Pool with higher priority has higher chance of being chosen.
+- **Sequence** - Pools are selected in a sequential way with customizable step (i.e. every second or third Pool).
+
 ### Example
 It's time for some examples. Let's set up a simple Pool for Transform components.
 
@@ -56,7 +77,7 @@ It's time for some examples. Let's set up a simple Pool for Transform components
 ```csharp
 class TransformPoolable : Poolable<Transform> { }
 ```
-Yes, that's it. This is necessary, since Unity can't serialize generic classes. Following steps are going to be similar.
+Yes, that's it. This is necessary, since Unity can't serialize generic classes. Following step is going to be similar.
 
 #### 2. Create sublass of the PoolPreparer\<Transform\> 
 ```csharp
@@ -77,7 +98,7 @@ class TransformPoolableStateRestorer : IPoolableStateRestorer<Transform>
     public void OnRetrieve(Poolable<Transform> poolable)
     {
         poolable.gameObject.SetActive(true);
-        poolable.Target.eulerAngles = new Vector3(30, 0, 90);
+        poolable.Target.localScale = Vector3.one;
     }
 
     public void OnReturn(Poolable<Transform> poolable)
@@ -86,7 +107,7 @@ class TransformPoolableStateRestorer : IPoolableStateRestorer<Transform>
     }
 }
 ```
-Then, use it in Pool Preparer in the following way:
+Then, use it in Pool Preparer by overriding StateRestorer property:
 ```csharp
 protected override IPoolableStateRestorer<Transform> StateRestorer => restorer;
 ```
@@ -102,11 +123,9 @@ An example use case is to provide dependencies, that can't be set up directly in
 ```csharp
 class TransformFactory : PoolableFactory<Transform>
 {
-    private Vector3 scale;
-
-    public TransformFactory(Poolable<Transform> prefab, Transform parent, IPoolableStateRestorer<Transform> stateResotrer, Vector3 scale) : base(prefab, parent, stateResotrer)
+    public TransformFactory(Poolable<Transform> prefab, Transform parent, IPoolableStateRestorer<Transform> stateResotrer) : base(prefab, parent, stateResotrer)
     {
-        this.scale = scale;
+        poolable.Target.eulerAngles = new Vector3(30, 0, 90);
     }
 
     public override void OnCreated(Poolable<Transform> created)
@@ -131,13 +150,26 @@ class TransformPoolPreparer : PoolPreparer<Transform>
 
     protected override IPoolableStateRestorer<Transform> StateRestorer => new TransformPoolableStateRestorer();
 
-    [SerializeField]
-    private Vector3 scale;
-    protected override IPoolableFactory<Transform> PoolableFactory => new TransformFactory(prefab, transform, StateRestorer, scale);
+    protected override IPoolableFactory<Transform> PoolableFactory => new TransformFactory(prefab, transform, StateRestorer);
 }
 ```
 
+#### 3. Create poolable prefab
+
+
+#### 4. Set up the scene
+
+### Multi Pool Example
+
 ## Spawners
+Coming soon...
+### How does it work?
+Coming soon...
+### Scripting API
+Coming soon...
+### Spawn Listeners
+Coming soon...
+### Spawn Points
 Coming soon...
 ### Example
 Coming soon...

@@ -3,11 +3,7 @@ using UnityEngine;
 
 namespace SpawnerSystem.ObjectPooling
 {
-    public abstract class Poolable : MonoBehaviour
-    {
-    }
-
-    public abstract class Poolable<T> : Poolable
+    public abstract class Poolable<T> : MonoBehaviour
     {
         [SerializeField]
         public T Target;

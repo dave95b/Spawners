@@ -26,7 +26,7 @@ namespace SpawnerSystem.ObjectPooling
             }
         }
 
-        private MultiPool<T> CreateMultiPool()
+        protected MultiPool<T> CreateMultiPool()
         {
             var pools = GetPools();
             var selector = selectorProvider.Selector;
@@ -36,8 +36,8 @@ namespace SpawnerSystem.ObjectPooling
 
         private IPool<T>[] GetPools()
         {
-            int poolCount = PoolPreparers.Length;
-            int multiPoolCount = MultiPoolPreparers.Length;
+            int poolCount = PoolPreparers is null ? 0 : PoolPreparers.Length;
+            int multiPoolCount = MultiPoolPreparers is null ? 0 : MultiPoolPreparers.Length;
             var pools = new IPool<T>[poolCount + multiPoolCount];
 
             int i;

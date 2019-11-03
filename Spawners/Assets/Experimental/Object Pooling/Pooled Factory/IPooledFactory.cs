@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Experimental.ObjectPooling.Factory
 {
-    public interface IPooledFactory<T>
+    public interface IPooledFactory<out T>
     {
         T Create();
     }

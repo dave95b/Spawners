@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-namespace Experimental.ObjectPooling
+namespace Experimental.ObjectPooling.StateRestorer
 {
     internal class DefaultStateRestorer<T> : IStateRestorer<T> where T : Component
     {
@@ -14,7 +14,7 @@ namespace Experimental.ObjectPooling
 
         public void OnRetrieve(T pooled)
         {
-            pooled.gameObject.SetActive(false);
+            pooled.gameObject.SetActive(true);
         }
 
         public void OnReturn(T returned)

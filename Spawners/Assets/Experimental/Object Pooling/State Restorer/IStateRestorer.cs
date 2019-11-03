@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace Experimental.ObjectPooling
+namespace Experimental.ObjectPooling.StateRestorer
 {
-    public interface IStateRestorer<T>
+    public interface IStateRestorer<in T>
     {
         void OnRetrieve(T pooled);
         void OnReturn(T returned);

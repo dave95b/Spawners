@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine.Assertions;
 using Experimental.ObjectPooling.Factory;
+using Experimental.ObjectPooling.StateRestorer;
 
 namespace Experimental.ObjectPooling
 {
     public class Pool<T> : IPool<T>
     {
+        public IEnumerable<T> UsedObjects => usedObjects;
+
         private readonly IStateRestorer<T> stateRestorer;
         private readonly IPooledFactory<T> factory;
         private readonly int expandAmount;

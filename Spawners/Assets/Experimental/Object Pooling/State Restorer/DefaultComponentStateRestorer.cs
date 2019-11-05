@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Experimental.ObjectPooling.StateRestorer
 {
-    internal class DefaultStateRestorer<T> : IStateRestorer<T> where T : Component
+    internal class DefaultComponentStateRestorer<T> : IStateRestorer<T> where T : Component
     {
         private readonly Transform parent;
 
-        public DefaultStateRestorer(Transform parent)
+        public DefaultComponentStateRestorer(Transform parent)
         {
             this.parent = parent;
         }

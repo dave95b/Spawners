@@ -69,10 +69,10 @@ namespace Experimental.ObjectPooling
 
         public void ReturnAll()
         {
-            foreach (var pooled in pooledObjects)
+            foreach (var pooled in usedObjects)
                 DoReturn(pooled);
 
-            pooledObjects.Clear();
+            usedObjects.Clear();
         }
 
         private void DoReturn(T pooled)

@@ -61,7 +61,9 @@ namespace Experimental.Spawner
         public void DespawnAll()
         {
             foreach (var used in pool.UsedObjects)
-                Despawn(used);
+                NotifyDespawned(used);
+
+            pool.ReturnAll();
         }
 
 

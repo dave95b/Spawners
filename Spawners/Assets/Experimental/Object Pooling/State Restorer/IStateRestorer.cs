@@ -1,8 +1,4 @@
-﻿using UnityEngine;
-using System;
-using System.Collections.Generic;
-
-namespace Experimental.ObjectPooling.StateRestorer
+﻿namespace Experimental.ObjectPooling.StateRestorer
 {
     public interface IStateRestorer<in T>
     {

@@ -1,8 +1,6 @@
-﻿using UnityEngine;
-using System;
-using System.Collections.Generic;
+﻿using Experimental.ObjectPooling.Factory;
 using Experimental.ObjectPooling.StateRestorer;
-using Experimental.ObjectPooling.Factory;
+using System.Collections.Generic;
 
 namespace Experimental.ObjectPooling.Builder
 {
@@ -13,5 +11,6 @@ namespace Experimental.ObjectPooling.Builder
         IPoolBuilder<T> WithExpandAmount(int toExpand);
         IPoolBuilder<T> Expanded(int expandedAmount);
         IPool<T> Build();
+        IPool<T> Build(List<T> pooled);
     }
 }

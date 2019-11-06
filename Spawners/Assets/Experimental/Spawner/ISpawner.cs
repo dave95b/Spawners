@@ -1,9 +1,7 @@
-﻿using UnityEngine;
-using System;
-using System.Collections.Generic;
-using Experimental.Spawner.Listener;
+﻿using Experimental.Spawners.Listener;
+using UnityEngine;
 
-namespace Experimental.Spawner
+namespace Experimental.Spawners
 {
     public interface ISpawner<T> where T : Component
     {

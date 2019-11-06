@@ -1,22 +1,17 @@
-﻿using UnityEngine;
+﻿using Experimental.ObjectPooling.Builder;
+using Experimental.Spawners.Listener;
 using System.Collections;
 using System.Collections.Generic;
-using Experimental.Spawner;
-using Experimental.ObjectPooling;
-using Experimental.ObjectPooling.Factory;
-using Experimental.ObjectPooling.StateRestorer;
-using Experimental.Spawner.Listener;
+using UnityEngine;
 
-namespace Experimental.Spawner.Static
+namespace Experimental.Spawners.Static
 {
     internal class StaticSpawnerBehaviour : MonoBehaviour
     {
-        public Move prefab;
-
         private Dictionary<Component, object> prefabsToSpawners, spawnedToSpawners;
         private Dictionary<Component, Transform> parents;
 
-        private void Awake()
+        internal void Init()
         {
             prefabsToSpawners = new Dictionary<Component, object>();
             spawnedToSpawners = new Dictionary<Component, object>();
@@ -26,7 +21,7 @@ namespace Experimental.Spawner.Static
 
         public T Spawn<T>(T prefab) where T : Component
         {
-            var spawner = GetSpawnerFor(prefab);
+            var spawner = GetSpawnerForPrefab(prefab);
             T spawned = spawner.Spawn() as T;
             spawnedToSpawners[spawned] = spawner;
 
@@ -35,7 +30,7 @@ namespace Experimental.Spawner.Static
 
         public T Spawn<T>(T prefab, in Vector3 position) where T : Component
         {
-            var spawner = GetSpawnerFor(prefab);
+            var spawner = GetSpawnerForPrefab(prefab);
             T spawned = spawner.Spawn(position) as T;
             spawnedToSpawners[spawned] = spawner;
 
@@ -44,7 +39,7 @@ namespace Experimental.Spawner.Static
 
         public T Spawn<T>(T prefab, in Vector3 position, Transform parent) where T : Component
         {
-            var spawner = GetSpawnerFor(prefab);
+            var spawner = GetSpawnerForPrefab(prefab);
             T spawned = spawner.Spawn(position, parent) as T;
             spawnedToSpawners[spawned] = spawner;
 
@@ -53,7 +48,7 @@ namespace Experimental.Spawner.Static
 
         public T Spawn<T>(T prefab, in Vector3 position, in Quaternion rotation, Transform parent) where T : Component
         {
-            var spawner = GetSpawnerFor(prefab);
+            var spawner = GetSpawnerForPrefab(prefab);
             T spawned = spawner.Spawn(position, rotation, parent) as T;
             spawnedToSpawners[spawned] = spawner;
 
@@ -71,32 +66,46 @@ namespace Experimental.Spawner.Static
 
         public void DespawnAll<T>(T prefab) where T : Component
         {
-            var spawner = GetSpawnerFor(prefab);
+            var spawner = GetSpawnerForPrefab(prefab);
             spawner.DespawnAll();
         }
 
-        public ISpawner<T> GetSpawnerForPrefab<T>(T prefab) where T : Component
+
+        public void AddSpawnListener<T>(T prefab, ISpawnListener<T> listener) where T : Component
         {
-            return GetSpawnerFor(prefab) as ISpawner<T>;
+            var spawner = GetSpawnerForPrefab(prefab);
+            spawner.AddSpawnListener(listener);
+        }
+
+        public void RemoveSpawnListener<T>(T prefab, ISpawnListener<T> listener) where T : Component
+        {
+            var spawner = GetSpawnerForPrefab(prefab);
+            spawner.RemoveSpawnListener(listener);
         }
 
 
-        private ISpawner<T> GetSpawnerFor<T>(T prefab) where T : Component
+        public ISpawner<T> GetSpawnerForPrefab<T>(T prefab) where T : Component
         {
-            ISpawner<T> spawner;
-
             if (prefabsToSpawners.TryGetValue(prefab, out var spawnerObj))
-                spawner = spawnerObj as ISpawner<T>;
+                return spawnerObj as ISpawner<T>;
             else
-            {
-                var parent = GetParentFor(prefab);
-                var stateRestorer = new DefaultStateRestorer<T>(parent);
-                var factory = new PooledComponentFactory<T>(prefab, stateRestorer);
+                return CreateSpawnerFor(prefab);
+        }
 
-                var pool = new Pool<T>(stateRestorer, factory, 1);
-                spawner = new Spawner<T>(pool);
-                prefabsToSpawners[prefab] = spawner;
-            }
+        public ISpawner<T> GetSpawnerForSpawned<T>(T spawned) where T : Component
+        {
+            return spawnedToSpawners[spawned] as ISpawner<T>;
+        }
+
+
+        private ISpawner<T> CreateSpawnerFor<T>(T prefab) where T : Component
+        {
+            var parent = GetParentFor(prefab);
+            var poolBuilder = new ComponentPoolBuilder<T>(parent, prefab);
+            var pool = poolBuilder.Build();
+
+            var spawner = new Spawner<T>(pool);
+            prefabsToSpawners[prefab] = spawner;
 
             return spawner;
         }

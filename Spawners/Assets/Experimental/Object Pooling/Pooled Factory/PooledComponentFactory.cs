@@ -1,8 +1,6 @@
-﻿using UnityEngine;
-using System;
-using System.Collections.Generic;
+﻿using Experimental.ObjectPooling.StateRestorer;
+using UnityEngine;
 using UnityEngine.Assertions;
-using Experimental.ObjectPooling.StateRestorer;
 
 namespace Experimental.ObjectPooling.Factory
 {

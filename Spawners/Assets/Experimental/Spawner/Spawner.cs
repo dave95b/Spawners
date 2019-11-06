@@ -1,10 +1,10 @@
-﻿using UnityEngine;
+﻿using Experimental.ObjectPooling;
+using Experimental.Spawners.Listener;
 using System.Collections.Generic;
-using Experimental.ObjectPooling;
-using Experimental.Spawner.Listener;
+using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace Experimental.Spawner
+namespace Experimental.Spawners
 {
     public class Spawner<T> : ISpawner<T> where T : Component
     {

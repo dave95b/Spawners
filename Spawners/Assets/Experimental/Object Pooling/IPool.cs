@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Experimental.ObjectPooling
 {
@@ -8,7 +6,7 @@ namespace Experimental.ObjectPooling
     {
         IEnumerable<T> UsedObjects { get; }
         T Retrieve();
-        
+
         void Return(T pooled);
         void ReturnAll();
     }

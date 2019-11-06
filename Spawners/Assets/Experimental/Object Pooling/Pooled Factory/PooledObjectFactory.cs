@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-
-namespace Experimental.ObjectPooling.Factory
+﻿namespace Experimental.ObjectPooling.Factory
 {
     public class PooledObjectFactory<T> : IPooledFactory<T> where T : new()
     {

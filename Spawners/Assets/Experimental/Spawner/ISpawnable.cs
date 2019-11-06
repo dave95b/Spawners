@@ -1,8 +1,4 @@
-﻿using UnityEngine;
-using System;
-using System.Collections.Generic;
-
-namespace Experimental.Spawner
+﻿namespace Experimental.Spawners
 {
     public interface ISpawnable
     {

@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-using Experimental.ObjectPooling.Factory;
+﻿using Experimental.ObjectPooling.Factory;
 using Experimental.ObjectPooling.StateRestorer;
+using System.Collections.Generic;
+using UnityEngine.Assertions;
 
 namespace Experimental.ObjectPooling.Builder
 {
@@ -17,27 +17,34 @@ namespace Experimental.ObjectPooling.Builder
 
         public IPool<T> Build()
         {
+            List<T> pooled = new List<T>(toExpand);
+            return Build(pooled);
+        }
+
+        public IPool<T> Build(List<T> pooled)
+        {
             stateRestorer = stateRestorer ?? DefaultStateRestorer;
             factory = factory ?? DefaultFactory;
 
-            List<T> pooledObjects = new List<T>(toExpand);
             for (int i = 0; i < toExpand; i++)
             {
                 T created = factory.Create();
-                pooledObjects.Add(created);
+                pooled.Add(created);
             }
 
-            return new Pool<T>(stateRestorer, factory, expandAmount, pooledObjects);
+            return new Pool<T>(stateRestorer, factory, expandAmount, pooled);
         }
 
         public IPoolBuilder<T> Expanded(int toExpand)
         {
+            Assert.IsTrue(toExpand >= 0);
             this.toExpand = toExpand;
             return this;
         }
 
         public IPoolBuilder<T> WithExpandAmount(int expandAmount)
         {
+            Assert.IsTrue(expandAmount > 0);
             this.expandAmount = expandAmount;
             return this;
         }

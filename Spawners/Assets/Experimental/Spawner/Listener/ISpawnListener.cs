@@ -1,8 +1,4 @@
-﻿using UnityEngine;
-using System;
-using System.Collections.Generic;
-
-namespace Experimental.Spawner.Listener
+﻿namespace Experimental.Spawners.Listener
 {
     public interface ISpawnListener<in T>
     {

@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using Experimental.Spawners.Static;
 using System.Collections;
-using Experimental.Spawners.Static;
+using UnityEngine;
 
 namespace Experimental.Tests
 {

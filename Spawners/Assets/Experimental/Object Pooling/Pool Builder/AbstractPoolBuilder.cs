@@ -7,7 +7,7 @@ namespace Experimental.ObjectPooling.Builder
 {
     public abstract class AbstractPoolBuilder<T> : IPoolBuilder<T>
     {
-        protected int toExpand = 0, expandAmount = 1;
+        protected int itemCount = 0, expandAmount = 1;
         protected IPooledFactory<T> factory;
         protected IStateRestorer<T> stateRestorer;
 
@@ -17,16 +17,16 @@ namespace Experimental.ObjectPooling.Builder
 
         public IPool<T> Build()
         {
-            List<T> pooled = new List<T>(toExpand);
+            List<T> pooled = new List<T>(itemCount);
             return Build(pooled);
         }
 
-        public IPool<T> Build(List<T> pooled)
+        public virtual IPool<T> Build(List<T> pooled)
         {
             stateRestorer = stateRestorer ?? DefaultStateRestorer;
             factory = factory ?? DefaultFactory;
 
-            for (int i = 0; i < toExpand; i++)
+            for (int i = 0; i < itemCount; i++)
             {
                 T created = factory.Create();
                 pooled.Add(created);
@@ -35,10 +35,10 @@ namespace Experimental.ObjectPooling.Builder
             return new Pool<T>(stateRestorer, factory, expandAmount, pooled);
         }
 
-        public IPoolBuilder<T> Expanded(int toExpand)
+        public IPoolBuilder<T> WithInitialItems(int itemCount)
         {
-            Assert.IsTrue(toExpand >= 0);
-            this.toExpand = toExpand;
+            Assert.IsTrue(itemCount >= 0);
+            this.itemCount = itemCount;
             return this;
         }
 

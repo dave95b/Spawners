@@ -1,5 +1,6 @@
 ﻿using Experimental.ObjectPooling.Factory;
 using Experimental.ObjectPooling.StateRestorer;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Experimental.ObjectPooling.Builder
@@ -15,7 +16,13 @@ namespace Experimental.ObjectPooling.Builder
             this.prefab = prefab;
         }
 
-        protected override IStateRestorer<T> DefaultStateRestorer => new DefaultComponentStateRestorer<T>(parent);
+        protected override IStateRestorer<T> DefaultStateRestorer => new DefaultComponentStateRestorer<T>(parent, stateRestorer);
         protected override IPooledFactory<T> DefaultFactory => new PooledComponentFactory<T>(prefab, stateRestorer);
+
+        public override IPool<T> Build(List<T> pooled)
+        {
+            stateRestorer = DefaultStateRestorer;
+            return base.Build(pooled);
+        }
     }
 }

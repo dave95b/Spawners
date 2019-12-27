@@ -12,12 +12,14 @@ namespace Experimental.ObjectPooling.Preparer
         [SerializeField, MinValue(1)]
         private int size = 10, expandAmount = 5;
 
+        [SerializeField]
+        private T prefab;
+
         private IPool<T> pool;
         public IPool<T> Pool => pool ?? (pool = CreatePool());
 
-        protected abstract T Prefab { get; }
-        protected abstract IStateRestorer<T> StateRestorer { get; }
-        protected abstract IPooledFactory<T> Factory { get; }
+        protected virtual IStateRestorer<T> StateRestorer { get; }
+        protected virtual IPooledFactory<T> Factory { get; }
 
 
         private IPool<T> CreatePool()
@@ -26,9 +28,9 @@ namespace Experimental.ObjectPooling.Preparer
             GetPrewarmedObjects(pooled);
 
             int toExpand = Mathf.Max(0, size - pooled.Count);
-            var builder = new ComponentPoolBuilder<T>(transform, Prefab);
+            var builder = new ComponentPoolBuilder<T>(transform, prefab);
 
-            return builder.Expanded(toExpand)
+            return builder.WithInitialItems(toExpand)
                 .WithExpandAmount(expandAmount)
                 .WithFactory(Factory)
                 .WithStateRestorer(StateRestorer)
@@ -51,12 +53,12 @@ namespace Experimental.ObjectPooling.Preparer
     public partial class PoolPreparer<T>
     {
         [Button]
-        private void CreateObjects()
+        protected void CreateObjects()
         {
             var stateRestorer = StateRestorer ?? new DefaultComponentStateRestorer<T>(transform);
             for (int i = 0; i < size; i++)
             {
-                var created = UnityEditor.PrefabUtility.InstantiatePrefab(Prefab, transform) as T;
+                var created = UnityEditor.PrefabUtility.InstantiatePrefab(prefab, transform) as T;
                 stateRestorer.OnReturn(created);
             }
         }

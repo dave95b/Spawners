@@ -20,7 +20,7 @@ namespace Experimental.ObjectPooling.Factory
 
         public virtual T Create()
         {
-            var created = GameObject.Instantiate(prefab);
+            var created = Object.Instantiate(prefab);
             stateRestorer.OnReturn(created);
 
             return created;

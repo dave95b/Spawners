@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Experimental.ObjectPooling.Preparer
 {
-    public abstract partial class PoolPreparer<T> : MonoBehaviour where T : Component
+    public abstract partial class PoolPreparer<T> : BasePoolPreparer<T>, IPoolPreparer<T> where T : Component
     {
         [SerializeField, MinValue(1)]
         private int size = 10, expandAmount = 5;
@@ -24,8 +24,7 @@ namespace Experimental.ObjectPooling.Preparer
 
         private IPool<T> CreatePool()
         {
-            var pooled = new List<T>();
-            GetPrewarmedObjects(pooled);
+            var pooled = GetPooledObjects();
 
             int toExpand = Mathf.Max(0, size - pooled.Count);
             var builder = new ComponentPoolBuilder<T>(transform, prefab);
@@ -37,14 +36,19 @@ namespace Experimental.ObjectPooling.Preparer
                 .Build(pooled);
         }
 
-        private void GetPrewarmedObjects(List<T> pooledObjects)
+        private List<T> GetPooledObjects()
         {
-            for (int i = 0; i < transform.childCount; i++)
+            int count = transform.childCount;
+            var pooledObjects = new List<T>(count);
+
+            for (int i = 0; i < count; i++)
             {
                 var pooled = transform.GetChild(i).GetComponent<T>();
                 if (pooled != null)
                     pooledObjects.Add(pooled);
             }
+
+            return pooledObjects;
         }
     }
 
@@ -53,9 +57,9 @@ namespace Experimental.ObjectPooling.Preparer
     public partial class PoolPreparer<T>
     {
         [Button]
-        protected void CreateObjects()
+        internal override void CreateObjects()
         {
-            var stateRestorer = StateRestorer ?? new DefaultComponentStateRestorer<T>(transform);
+            var stateRestorer = new DefaultComponentStateRestorer<T>(transform, StateRestorer);
             for (int i = 0; i < size; i++)
             {
                 var created = UnityEditor.PrefabUtility.InstantiatePrefab(prefab, transform) as T;

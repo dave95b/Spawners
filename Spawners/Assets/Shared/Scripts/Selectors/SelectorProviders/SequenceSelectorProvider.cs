@@ -9,7 +9,7 @@ namespace SpawnerSystem.Shared
         private int objectCount;
 
         [SerializeField]
-        private int step;
+        private int step = 1;
 
         [SerializeField]
         private bool pingPong;

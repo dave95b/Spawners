@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Experimental.Spawners.Preparer
 {
-    public class SpawnerPreparer<TSpawn, TPreparer> : MonoBehaviour where TSpawn : Component where TPreparer : PoolPreparer<TSpawn>
+    public class SpawnerPreparer<TSpawn, TPreparer> : MonoBehaviour where TSpawn : Component where TPreparer : IPoolPreparer<TSpawn>
     {
         [SerializeField]
         private TPreparer preparer;

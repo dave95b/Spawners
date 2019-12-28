@@ -23,6 +23,7 @@ namespace Experimental.ObjectPooling
         public MultiPool(IPool<T>[] pools, ISelector selector, IStateRestorer<T> stateRestorer)
         {
             Assert.IsNotNull(pools);
+            Assert.IsTrue(pools.Length > 0);
             Assert.IsNotNull(selector);
 
             this.pools = pools;

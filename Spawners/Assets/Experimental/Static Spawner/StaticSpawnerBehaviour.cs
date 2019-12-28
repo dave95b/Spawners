@@ -57,7 +57,7 @@ namespace Experimental.Spawners.Static
 
         public void Despawn<T>(T spawned) where T : Component
         {
-            var spawner = spawnedToSpawners[spawned] as ISpawner<T>;
+            var spawner = GetSpawnerForSpawned(spawned);
             spawnedToSpawners.Remove(spawned);
 
             spawner.Despawn(spawned);

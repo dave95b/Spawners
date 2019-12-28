@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+
+using Random = UnityEngine.Random;
 
 public static class CollectionExtensions
 {
@@ -93,6 +95,11 @@ public static class CollectionExtensions
         T temp = array[sourceIndex];
         array[sourceIndex] = array[destinationIndex];
         array[destinationIndex] = temp;
+    }
+
+    public static bool Contains<T>(this T[] array, T item)
+    {
+        return Array.IndexOf(array, item) >= 0;
     }
 
     #endregion Arrays

@@ -114,7 +114,7 @@ namespace Experimental.Spawners.Static
             if (parents.TryGetValue(prefab, out var parent))
                 return parent;
 
-            parent = new GameObject(prefab.name + " Pool").transform;
+            parent = new GameObject($"{prefab.name} Pool").transform;
             parent.SetParent(transform);
             parents[prefab] = parent;
 

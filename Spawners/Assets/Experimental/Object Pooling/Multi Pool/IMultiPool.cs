@@ -5,7 +5,7 @@ namespace Experimental.ObjectPooling
 {
     public interface IMultiPool<T> : IPool<T>
     {
-        IEnumerable<IPool<T>> Pools { get; }
+        IReadOnlyList<IPool<T>> Pools { get; }
         ISelector Selector { get; set; }
 
         T RetrieveFrom(int index);

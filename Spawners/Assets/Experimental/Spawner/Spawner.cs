@@ -8,7 +8,8 @@ namespace Experimental.Spawners
 {
     public class Spawner<T> : ISpawner<T> where T : Component
     {
-        private readonly IPool<T> pool;
+        public IPool<T> Pool { get; private set; }
+
         private readonly List<ISpawnListener<T>> spawnListeners;
 
 
@@ -19,7 +20,7 @@ namespace Experimental.Spawners
             Assert.IsNotNull(pool);
             Assert.IsNotNull(spawnListeners);
 
-            this.pool = pool;
+            Pool = pool;
             this.spawnListeners = spawnListeners;
         }
 
@@ -41,7 +42,7 @@ namespace Experimental.Spawners
 
         public T Spawn(in Vector3 position, in Quaternion rotation, Transform parent)
         {
-            T spawned = pool.Retrieve();
+            T spawned = Pool.Retrieve();
 
             spawned.transform.SetPositionAndRotation(position, rotation);
             if (parent != null)
@@ -55,15 +56,15 @@ namespace Experimental.Spawners
         public void Despawn(T despawned)
         {
             NotifyDespawned(despawned);
-            pool.Return(despawned);
+            Pool.Return(despawned);
         }
 
         public void DespawnAll()
         {
-            foreach (var used in pool.UsedObjects)
+            foreach (var used in Pool.UsedObjects)
                 NotifyDespawned(used);
 
-            pool.ReturnAll();
+            Pool.ReturnAll();
         }
 
 

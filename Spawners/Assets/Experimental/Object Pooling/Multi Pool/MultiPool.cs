@@ -8,12 +8,11 @@ namespace Experimental.ObjectPooling
     public class MultiPool<T> : IMultiPool<T>
     {
         public IEnumerable<T> UsedObjects => usedObjects.Keys;
-        public IEnumerable<IPool<T>> Pools => pools;
+        public IReadOnlyList<IPool<T>> Pools => pools;
         public ISelector Selector { get; set; }
+        public IStateRestorer<T> StateRestorer { get; set; }
 
         private readonly IPool<T>[] pools;
-        private readonly IStateRestorer<T> stateRestorer;
-
         private readonly Dictionary<T, IPool<T>> usedObjects;
 
 
@@ -28,7 +27,7 @@ namespace Experimental.ObjectPooling
 
             this.pools = pools;
             Selector = selector;
-            this.stateRestorer = stateRestorer;
+            StateRestorer = stateRestorer;
 
             usedObjects = new Dictionary<T, IPool<T>>();
         }
@@ -56,7 +55,7 @@ namespace Experimental.ObjectPooling
             Assert.IsTrue(pools.Contains(pool));
 
             T retrieved = pool.Retrieve();
-            stateRestorer?.OnRetrieve(retrieved);
+            StateRestorer?.OnRetrieve(retrieved);
             usedObjects.Add(retrieved, pool);
 
             return retrieved;
@@ -66,7 +65,7 @@ namespace Experimental.ObjectPooling
         {
             Assert.IsTrue(usedObjects.ContainsKey(pooled));
 
-            stateRestorer?.OnReturn(pooled);
+            StateRestorer?.OnReturn(pooled);
 
             var pool = usedObjects[pooled];
             usedObjects.Remove(pooled);
@@ -76,10 +75,10 @@ namespace Experimental.ObjectPooling
 
         public void ReturnAll()
         {
-            if (stateRestorer != null)
+            if (StateRestorer != null)
             {
                 foreach (var used in UsedObjects)
-                    stateRestorer.OnReturn(used);
+                    StateRestorer.OnReturn(used);
             }
 
             foreach (var pool in pools)

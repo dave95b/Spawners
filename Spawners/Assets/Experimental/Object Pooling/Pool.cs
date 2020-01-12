@@ -8,8 +8,8 @@ namespace Experimental.ObjectPooling
     public class Pool<T> : IPool<T>
     {
         public IEnumerable<T> UsedObjects => usedObjects;
+        public IStateRestorer<T> StateRestorer { get; set; }
 
-        private readonly IStateRestorer<T> stateRestorer;
         private readonly IPooledFactory<T> factory;
         private readonly int expandAmount;
 
@@ -27,7 +27,7 @@ namespace Experimental.ObjectPooling
             Assert.IsNotNull(factory);
             Assert.IsNotNull(pooledObjects);
 
-            this.stateRestorer = stateRestorer;
+            StateRestorer = stateRestorer;
             this.factory = factory;
             this.expandAmount = expandAmount;
 
@@ -42,7 +42,7 @@ namespace Experimental.ObjectPooling
                 Expand();
 
             T pooled = DoRetrieve();
-            stateRestorer.OnRetrieve(pooled);
+            StateRestorer.OnRetrieve(pooled);
 
             return pooled;
         }
@@ -77,11 +77,11 @@ namespace Experimental.ObjectPooling
         private void DoReturn(T pooled)
         {
             pooledObjects.Add(pooled);
-            stateRestorer.OnReturn(pooled);
+            StateRestorer.OnReturn(pooled);
         }
 
 
-        internal void Expand()
+        private void Expand()
         {
             for (int i = 0; i < expandAmount; i++)
             {

@@ -1,10 +1,13 @@
-﻿using Experimental.Spawners.Listener;
+﻿using Experimental.ObjectPooling;
+using Experimental.Spawners.Listener;
 using UnityEngine;
 
 namespace Experimental.Spawners
 {
     public interface ISpawner<T> where T : Component
     {
+        IPool<T> Pool { get; }
+
         T Spawn();
         T Spawn(in Vector3 position);
         T Spawn(in Vector3 position, Transform parent);

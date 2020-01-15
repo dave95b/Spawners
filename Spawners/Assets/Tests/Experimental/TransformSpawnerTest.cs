@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using Experimental.Spawners;
+using ObjectManagement.Spawners;
 using System.Collections;
 
-namespace Experimental.Tests
+namespace ObjectManagement.Tests
 {
     public class TransformSpawnerTest : MonoBehaviour
     {

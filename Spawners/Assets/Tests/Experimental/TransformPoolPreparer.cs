@@ -1,8 +1,8 @@
-﻿using Experimental.ObjectPooling.Preparer;
-using Experimental.ObjectPooling.StateRestorer;
+﻿using ObjectManagement.ObjectPooling.Preparer;
+using ObjectManagement.ObjectPooling.StateRestorer;
 using UnityEngine;
 
-namespace Experimental.Tests
+namespace ObjectManagement.Tests
 {
     public class TransformPoolPreparer : PoolPreparer<Transform>
     {

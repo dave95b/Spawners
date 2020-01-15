@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using Experimental.ObjectPooling.Preparer;
+using ObjectManagement.ObjectPooling.Preparer;
 
-namespace Experimental.Tests
+namespace ObjectManagement.Tests
 {
     public class TransformMultiPoolPreparer : MultiPoolPreparer<Transform>
     {

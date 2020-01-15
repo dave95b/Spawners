@@ -1,9 +1,9 @@
-﻿using Experimental.Spawners.Static;
-using Experimental.ObjectPooling.StateRestorer;
+﻿using ObjectManagement.Spawners.Static;
+using ObjectManagement.ObjectPooling.StateRestorer;
 using System.Collections;
 using UnityEngine;
 
-namespace Experimental.Tests
+namespace ObjectManagement.Tests
 {
     public class StaticSpawnerTest : MonoBehaviour
     {

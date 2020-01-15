@@ -1,7 +1,7 @@
-﻿using Experimental.Spawners.Preparer;
+﻿using ObjectManagement.Spawners.Preparer;
 using UnityEngine;
 
-namespace Experimental.Tests
+namespace ObjectManagement.Tests
 {
     public class TransformSpawnerPreparer : SpawnerPreparer<Transform, TransformMultiPoolPreparer>
     {

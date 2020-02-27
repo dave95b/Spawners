@@ -2,7 +2,7 @@
 
 namespace ObjectManagement.ObjectPooling.StateRestorer
 {
-    internal class DefaultComponentStateRestorer<T> : IStateRestorer<T> where T : Component
+    public class DefaultComponentStateRestorer<T> : IStateRestorer<T> where T : Component
     {
         private readonly Transform parent;
         private readonly IStateRestorer<T> restorer;

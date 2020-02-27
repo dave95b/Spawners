@@ -10,6 +10,10 @@ namespace ObjectManagement.ObjectPooling.Builder
         private readonly Transform parent;
         private readonly T prefab;
 
+        public ComponentPoolBuilder(Transform parent) : this(parent, null)
+        {
+        }
+
         public ComponentPoolBuilder(Transform parent, T prefab)
         {
             this.parent = parent;

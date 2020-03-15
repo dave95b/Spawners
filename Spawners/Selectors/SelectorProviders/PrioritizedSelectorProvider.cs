@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.Collections.Generic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace ObjectManagement.Selector
         private List<Entry> priorities;
 
         private PrioritizedSelector selector;
+
         public override ISelector Selector
         {
             get
@@ -49,6 +51,7 @@ namespace ObjectManagement.Selector
     }
 
 #if UNITY_EDITOR
+
     public partial class PrioritizedSelectorProvider
     {
         private void OnValidate()
@@ -67,5 +70,6 @@ namespace ObjectManagement.Selector
             }
         }
     }
+
 #endif
 }

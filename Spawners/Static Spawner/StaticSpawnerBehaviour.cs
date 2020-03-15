@@ -16,7 +16,6 @@ namespace ObjectManagement.Spawners.Static
             parents = new Dictionary<Component, Transform>();
         }
 
-
         public T Spawn<T>(T prefab) where T : Component
         {
             var spawner = GetSpawnerForPrefab(prefab);
@@ -44,6 +43,15 @@ namespace ObjectManagement.Spawners.Static
             return spawned;
         }
 
+        public T Spawn<T>(T prefab, in Vector3 position, in Quaternion rotation) where T : Component
+        {
+            var spawner = GetSpawnerForPrefab(prefab);
+            T spawned = spawner.Spawn(position, rotation) as T;
+            spawnedToSpawners[spawned] = spawner;
+
+            return spawned;
+        }
+
         public T Spawn<T>(T prefab, in Vector3 position, in Quaternion rotation, Transform parent) where T : Component
         {
             var spawner = GetSpawnerForPrefab(prefab);
@@ -52,7 +60,6 @@ namespace ObjectManagement.Spawners.Static
 
             return spawned;
         }
-
 
         public void Despawn<T>(T spawned) where T : Component
         {
@@ -68,7 +75,6 @@ namespace ObjectManagement.Spawners.Static
             spawner.DespawnAll();
         }
 
-
         public void AddSpawnListener<T>(T prefab, ISpawnListener<T> listener) where T : Component
         {
             var spawner = GetSpawnerForPrefab(prefab);
@@ -80,7 +86,6 @@ namespace ObjectManagement.Spawners.Static
             var spawner = GetSpawnerForPrefab(prefab);
             spawner.RemoveSpawnListener(listener);
         }
-
 
         public ISpawner<T> GetSpawnerForPrefab<T>(T prefab) where T : Component
         {
@@ -94,7 +99,6 @@ namespace ObjectManagement.Spawners.Static
         {
             return spawnedToSpawners[spawned] as ISpawner<T>;
         }
-
 
         private ISpawner<T> CreateSpawnerFor<T>(T prefab) where T : Component
         {

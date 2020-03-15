@@ -5,6 +5,7 @@ namespace ObjectManagement.Spawners.Static
     public static class Spawner
     {
         private static StaticSpawnerBehaviour spawnerBehaviour;
+
         private static StaticSpawnerBehaviour SpawnerBehaviour
         {
             get
@@ -35,11 +36,15 @@ namespace ObjectManagement.Spawners.Static
             return SpawnerBehaviour.Spawn(prefab, position, parent);
         }
 
+        public static T Spawn<T>(T prefab, in Vector3 position, in Quaternion rotation) where T : Component
+        {
+            return SpawnerBehaviour.Spawn(prefab, position, rotation);
+        }
+
         public static T Spawn<T>(T prefab, in Vector3 position, in Quaternion rotation, Transform parent) where T : Component
         {
             return SpawnerBehaviour.Spawn(prefab, position, rotation, parent);
         }
-
 
         public static void Despawn<T>(T spawned) where T : Component
         {
@@ -51,7 +56,6 @@ namespace ObjectManagement.Spawners.Static
             SpawnerBehaviour.DespawnAll(prefab);
         }
 
-
         public static void AddSpawnListener<T>(T prefab, ISpawnListener<T> listener) where T : Component
         {
             SpawnerBehaviour.AddSpawnListener(prefab, listener);
@@ -61,7 +65,6 @@ namespace ObjectManagement.Spawners.Static
         {
             SpawnerBehaviour.RemoveSpawnListener(prefab, listener);
         }
-
 
         public static ISpawner<T> GetSpawnerForPrefab<T>(T prefab) where T : Component
         {

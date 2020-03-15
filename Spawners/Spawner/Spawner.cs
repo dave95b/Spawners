@@ -11,8 +11,9 @@ namespace ObjectManagement.Spawners
 
         private readonly List<ISpawnListener<T>> spawnListeners;
 
-
-        public Spawner(IPool<T> pool) : this(pool, new List<ISpawnListener<T>>()) { }
+        public Spawner(IPool<T> pool) : this(pool, new List<ISpawnListener<T>>())
+        {
+        }
 
         public Spawner(IPool<T> pool, List<ISpawnListener<T>> spawnListeners)
         {
@@ -22,7 +23,6 @@ namespace ObjectManagement.Spawners
             Pool = pool;
             this.spawnListeners = spawnListeners;
         }
-
 
         public T Spawn()
         {
@@ -39,6 +39,11 @@ namespace ObjectManagement.Spawners
             return Spawn(position, Quaternion.identity, parent);
         }
 
+        public T Spawn(in Vector3 position, in Quaternion rotation)
+        {
+            return Spawn(position, rotation, null);
+        }
+
         public T Spawn(in Vector3 position, in Quaternion rotation, Transform parent)
         {
             T spawned = Pool.Retrieve();
@@ -50,7 +55,6 @@ namespace ObjectManagement.Spawners
 
             return spawned;
         }
-
 
         public void Despawn(T despawned)
         {
@@ -66,7 +70,6 @@ namespace ObjectManagement.Spawners
             Pool.ReturnAll();
         }
 
-
         public void AddSpawnListener(ISpawnListener<T> listener)
         {
             spawnListeners.Add(listener);
@@ -76,7 +79,6 @@ namespace ObjectManagement.Spawners
         {
             spawnListeners.Remove(listener);
         }
-
 
         private void NotifySpawned(T spawned)
         {

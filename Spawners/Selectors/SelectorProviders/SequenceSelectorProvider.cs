@@ -1,7 +1,7 @@
 ﻿using NaughtyAttributes;
 using UnityEngine;
 
-namespace ObjectManagement.Selector
+namespace RandomSelection
 {
     public class SequenceSelectorProvider : SelectorProvider
     {

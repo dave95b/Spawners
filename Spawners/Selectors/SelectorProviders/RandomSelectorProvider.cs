@@ -1,20 +1,20 @@
 ﻿using NaughtyAttributes;
 using UnityEngine;
 
-namespace ObjectManagement.Selector
+namespace RandomSelection
 {
     public class RandomSelectorProvider : SelectorProvider
     {
         [SerializeField, ReadOnly]
         private int objectCount;
 
-        private RandomSelector selector;
+        private IRandomSelector selector;
         public override ISelector Selector
         {
             get
             {
                 if (selector is null)
-                    selector = new RandomSelector(objectCount);
+                    selector = SelectorFactory.Random(objectCount);
 
                 return selector;
             }

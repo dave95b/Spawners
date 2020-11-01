@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ObjectManagement.Selector
+namespace RandomSelection
 {
     public class SequenceSelector : ISelector
     {
@@ -29,7 +29,7 @@ namespace ObjectManagement.Selector
             Step = step;
         }
 
-        public int SelectIndex()
+        public int Select()
         {
             currentIndex += direction * Step;
             if (currentIndex >= objectCount || currentIndex < 0)

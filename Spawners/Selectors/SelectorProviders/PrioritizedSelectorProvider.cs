@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace ObjectManagement.Selector
+namespace RandomSelection
 {
     public partial class PrioritizedSelectorProvider : SelectorProvider
     {
         [SerializeField]
         private List<Entry> priorities;
 
-        private PrioritizedSelector selector;
+        private IPrioritizedSelector selector;
 
         public override ISelector Selector
         {
@@ -20,7 +20,7 @@ namespace ObjectManagement.Selector
                 if (selector is null)
                 {
                     var converted = new ConvertedCollection<Entry, float>(priorities, entry => entry.Priority);
-                    selector = new PrioritizedSelector(converted);
+                    selector = SelectorFactory.Prioritized(converted);
                 }
 
                 return selector;
@@ -66,7 +66,7 @@ namespace ObjectManagement.Selector
             if (selector != null)
             {
                 var converted = new ConvertedCollection<Entry, float>(priorities, entry => entry.Priority);
-                selector.ChangePriorities(converted);
+                selector.UpdatePriorities(converted);
             }
         }
     }

@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using UnityEngine;
 
-namespace ObjectManagement.Selector
+namespace RandomSelection
 {
     public abstract class SelectorProvider : MonoBehaviour
     {

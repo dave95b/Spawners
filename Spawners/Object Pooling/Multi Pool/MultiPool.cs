@@ -1,5 +1,5 @@
 ﻿using ObjectManagement.ObjectPooling.StateRestorer;
-using ObjectManagement.Selector;
+using RandomSelection;
 using System.Collections.Generic;
 using UnityEngine.Assertions;
 
@@ -35,7 +35,7 @@ namespace ObjectManagement.ObjectPooling
 
         public T Retrieve()
         {
-            int index = Selector.SelectIndex();
+            int index = Selector.Select();
             return RetrieveFrom(index);
         }
 

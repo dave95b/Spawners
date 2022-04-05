@@ -1,5 +1,6 @@
 # Spawners
 Spawners and Object Pooling for Unity.
+Work in progress. Following documentation is not complete and may be outdated
 
 ## Table Of Contents
 - [Object Pooling](../../../Spawners#object-pooling)
